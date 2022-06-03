@@ -1,6 +1,7 @@
 package com.moringaschool.closetapp.interfaces;
 
-import com.moringaschool.closetapp.Response;
+
+import com.moringaschool.closetapp.models.Response;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -50,4 +50,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.70'
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+
 }

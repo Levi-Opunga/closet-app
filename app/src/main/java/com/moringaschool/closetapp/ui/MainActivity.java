@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String[] tabs = {"Tops", "Bottoms", "Shoes"};
+        String[] tabs = {"All Items","Tops", "Bottoms", "Shoes"};
         ButterKnife.bind(this);
         Arrays.stream(tabs).forEach(s -> tabLayout.addTab(tabLayout.newTab().setText(s)));
 
@@ -64,5 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
+
+
     }
 }

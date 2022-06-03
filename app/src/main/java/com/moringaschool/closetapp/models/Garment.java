@@ -1,11 +1,11 @@
 
-package com.moringaschool.closetapp;
+package com.moringaschool.closetapp.models;
 
-import javax.annotation.Generated;
+import com.moringaschool.closetapp.models.ImageUrls;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.moringaschool.closetapp.models.Tryon;
 
-@Generated("jsonschema2pojo")
 public class Garment {
 
     @SerializedName("gender")
