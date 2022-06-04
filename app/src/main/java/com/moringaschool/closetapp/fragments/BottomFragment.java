@@ -42,8 +42,6 @@ public class BottomFragment extends Fragment {
     @BindView(R.id.recyclerviewB)
     RecyclerView recyclerView;
     long time;
-//    @BindView(R.id.allButton)
-//    Button button;
     @BindView(R.id.swiperefresh2)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
