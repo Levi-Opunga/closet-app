@@ -14,5 +14,32 @@ public interface ReveryApi {
             @Header("one_time_code") String one_time_code,
             @Header("timestamp") String timestamp
     );
+    @GET("get_filtered_garments")
+
+    Call<Response> getAllGarmentsGender(
+            @Query("gender") String gender,
+            @Header("one_time_code") String one_time_code,
+            @Header("timestamp") String timestamp
+    );
+
+    @GET("get_filtered_garments")
+    Call<Response> getTops(
+            @Query("category") String category,
+            @Header("one_time_code") String one_time_code,
+            @Header("timestamp") String timestamp
+    );
+    @GET("get_filtered_garments")
+    Call<Response> getBottoms(
+            @Query("category") String category,
+            @Header("one_time_code") String one_time_code,
+            @Header("timestamp") String timestamp
+    );
+    @GET("get_filtered_garments")
+    Call<Response> getShoes(
+            @Query("category") String category,
+            @Header("one_time_code") String one_time_code,
+            @Header("timestamp") String timestamp
+    );
+
 
 }
