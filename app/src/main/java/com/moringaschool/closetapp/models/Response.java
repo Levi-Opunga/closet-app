@@ -1,12 +1,16 @@
 
 package com.moringaschool.closetapp.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Response {
+import org.parceler.Parcel;
+
+@Parcel
+public class Response implements Serializable {
 
     @SerializedName("total_page")
     @Expose

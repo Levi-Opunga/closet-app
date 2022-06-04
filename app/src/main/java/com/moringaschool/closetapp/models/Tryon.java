@@ -4,7 +4,12 @@ package com.moringaschool.closetapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tryon {
+import org.parceler.Parcel;
+
+import java.io.Serializable;
+
+@Parcel
+public class Tryon implements Serializable {
 
     @SerializedName("category")
     @Expose

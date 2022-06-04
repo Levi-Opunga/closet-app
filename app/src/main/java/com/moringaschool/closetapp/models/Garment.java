@@ -6,7 +6,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.moringaschool.closetapp.models.Tryon;
 
-public class Garment {
+import org.parceler.Parcel;
+
+import java.io.Serializable;
+
+@Parcel
+public class Garment implements Serializable {
 
     @SerializedName("gender")
     @Expose
