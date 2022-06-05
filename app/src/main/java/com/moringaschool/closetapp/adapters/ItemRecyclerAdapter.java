@@ -14,7 +14,6 @@ import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.models.Garment;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +39,7 @@ Context context;
     @Override
     public void onBindViewHolder(@NonNull myHolders holder, int position) {
         Picasso.get().load(list.get(position).getImageUrls().getProductImage()).into(holder.itemImg);
-        holder.text.setText(list.get(position).getTryon().getCategory());
+        holder.text.setText(list.get(position).getTryon().getBottoms_sub_category());
     }
 
     @Override

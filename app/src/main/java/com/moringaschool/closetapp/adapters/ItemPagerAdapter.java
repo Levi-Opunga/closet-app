@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
 import com.moringaschool.closetapp.fragments.BottomFragment;
+import com.moringaschool.closetapp.fragments.DressFragment;
 import com.moringaschool.closetapp.fragments.ShoeFragment;
 import com.moringaschool.closetapp.fragments.TopFragment;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class ItemPagerAdapter extends FragmentStateAdapter {
 
+    ArrayList<Fragment> list = new ArrayList<Fragment>();
 
 //    public ItemPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
 //        super(fragmentActivity);
@@ -36,14 +38,12 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-    ArrayList<Fragment> list = new ArrayList<Fragment>();
-    Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment());
+        Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment(),new DressFragment());
         return list.get(position);
     }
 
     @Override
     public int getItemCount() {
-
-        return 4;
+        return 5;
     }
 }

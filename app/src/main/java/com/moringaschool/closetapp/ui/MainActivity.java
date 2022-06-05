@@ -56,7 +56,7 @@ long time;
         setContentView(R.layout.activity_main);
 
 Log.d("onCreate","creaaaaaaaaate");
-        String[] tabs = {"All Items","Tops", "Bottoms", "Shoes"};
+        String[] tabs = {"All Items","Tops", "Bottoms", "Shoes","Dresses"};
         ButterKnife.bind(this);
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override

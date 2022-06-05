@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.1693840579710145" />
+        <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.125" />
+        <entry key="app/src/main/res/font/cookie.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/font/lobster.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.5" />
         <entry key="app/src/main/res/layout/display_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_all_items.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_bottom.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_dress.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/fragment_shoe.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_top.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/menu_items.xml" value="0.17028985507246377" />
+        <entry key="app/src/main/res/menu/menu_items.xml" value="0.33" />
       </map>
     </option>
   </component>

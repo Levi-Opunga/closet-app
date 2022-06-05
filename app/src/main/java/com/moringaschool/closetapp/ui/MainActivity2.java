@@ -16,19 +16,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity2 extends AppCompatActivity {
-    @BindView(R.id.all_itemR)
-    RecyclerView AllItemsRecyclerView;
-    Response response;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
-        response = (Response) getIntent().getSerializableExtra("Response");
-        GridLayoutManager gridLayoutManager =new GridLayoutManager(getApplicationContext(), 2);
-        AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
-        AllItemsRecyclerView.setAdapter(new ItemRecyclerAdapter(response.getGarments(),getApplicationContext()));
-      //  AllItemsRecyclerView.setVisibility(View.VISIBLE);
+
     }
 }
