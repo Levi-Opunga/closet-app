@@ -1,6 +1,7 @@
 package com.moringaschool.closetapp.interfaces;
 
 
+import com.moringaschool.closetapp.models.Example;
 import com.moringaschool.closetapp.models.Response;
 
 import retrofit2.Call;
@@ -34,9 +35,9 @@ public interface ReveryApi {
             @Header("one_time_code") String one_time_code,
             @Header("timestamp") String timestamp
     );
-    @GET("get_filtered_garments")
-    Call<Response> getShoes(
-            @Query("category") String category,
+    @GET("get_selected_shoes")
+    Call<Example> getShoes(
+            @Query("gender") String gender,
             @Header("one_time_code") String one_time_code,
             @Header("timestamp") String timestamp
     );

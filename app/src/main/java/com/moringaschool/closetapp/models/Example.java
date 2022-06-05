@@ -1,11 +1,12 @@
 
 package com.moringaschool.closetapp.models;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Example {
+public class Example implements Serializable {
 
     @SerializedName("shoe_model_ids")
     @Expose
