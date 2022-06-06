@@ -4,6 +4,7 @@ import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -123,7 +124,14 @@ public class AllItemsFragment extends Fragment {
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         responses = response.body();
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                        GridLayoutManager gridLayoutManager = null;
+                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                             gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                        }
                         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
                         allContext = getContext();
                         AllItemsRecyclerView.setAdapter(new ItemRecyclerAdapter(responses.getGarments(),allContext));

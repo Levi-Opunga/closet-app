@@ -76,42 +76,23 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onCreate", "creaaaaaaaaate");
         String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses"};
         ButterKnife.bind(this);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                time = System.currentTimeMillis()/1000;
-//
-//                String derivedKey = Encryption.pbkdf2(SECRET_KEY,String.valueOf(time),128,32);
-//                Log.d("thekeyisatCreate", derivedKey);
-//
-//                ReveryApi reveryApi = ReveryClient.getClient();
-//                Call<Response> call = reveryApi.getAllGarments(derivedKey, String.valueOf(time));
-//                call.enqueue(new Callback<Response>() {
-//                    @Override
-//                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-//                        if(response.isSuccessful()){
-//                            getIntent().putExtra("Response",response.body());
-//                            Log.d("Success", "Suuuuuccccceeessssss");
-//                            FragmentManager fragmentManager = getSupportFragmentManager();
-//                            AllItemsFragment fragment = new AllItemsFragment();
-//                            fragmentManager.beginTransaction().replace(R.id.frame,fragment).commit();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Response> call, Throwable t) {
-//                        Log.d("fail", "faillllllllllllllll");
-//
-//                    }
-//                });
-//
-//            }
-//        });
+
+        int[] icons= new int[]{R.drawable.img_2,R.drawable.img,R.drawable.img_1,R.drawable.img_3};
         Arrays.stream(tabs).forEach(s -> tabLayout.addTab(tabLayout.newTab().setText(s)));
 
+        for (int i=0; i<icons.length; i++){
+            tabLayout.getTabAt(i+1).setIcon(icons[i]);
+
+        }
+//      s  Arrays.stream(tabs).forEach((s, ) ->
+//        { tabLayout.addTab(tabLayout.newTab().setText(s));
+//            tabLayout.addTab(tabLayout.getTabAt(i+1).setIcon(icons[i]);
+//             i++;
+//        });
         FragmentManager fragmentManager = getSupportFragmentManager();
         ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(itemPagerAdapter);
+        tabLayout.setTabIndicatorFullWidth(true);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

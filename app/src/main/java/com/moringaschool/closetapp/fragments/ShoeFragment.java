@@ -2,6 +2,7 @@ package com.moringaschool.closetapp.fragments;
 
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -102,8 +103,14 @@ public class ShoeFragment extends Fragment {
                                 allShoes.getModel13944054(), allShoes.getModel13738916(), allShoes.getModel13654211(),
                                 allShoes.getModel13903123(), allShoes.getModel13862238(), allShoes.getModel13952035(),
                                 allShoes.getModel14127779(), allShoes.getModel15016762(), allShoes.getModel14786919());
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-                        recyclerView.setLayoutManager(gridLayoutManager);
+                        GridLayoutManager gridLayoutManager = null;
+                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                        }                        recyclerView.setLayoutManager(gridLayoutManager);
                         //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
                         recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(),(ArrayList<String>) responses.getShoeModelIds()));
                         Log.d("Successtttttttt", "Suuuuuccccceeessssss");

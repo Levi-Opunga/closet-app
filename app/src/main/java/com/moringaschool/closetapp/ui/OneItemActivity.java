@@ -60,10 +60,9 @@ public class OneItemActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         // you can set menu header with title icon etc
-        menu.setHeaderTitle("Choose a color");
+        menu.setHeaderTitle("Choose an option");
         // add menu items
-        menu.add(0, v.getId(), 0, "Yellow");
-        menu.add(0, v.getId(), 0, "Gray");
-        menu.add(0, v.getId(), 0, "Cyan");
+        menu.add(0, v.getId(), 0, "Share");
+
     }
 }

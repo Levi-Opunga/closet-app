@@ -3,6 +3,7 @@ package com.moringaschool.closetapp.fragments;
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -90,8 +91,14 @@ public class TopFragment extends Fragment {
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         responses = response.body();
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-                        recyclerView.setLayoutManager(gridLayoutManager);
+                        GridLayoutManager gridLayoutManager = null;
+                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                        }                        recyclerView.setLayoutManager(gridLayoutManager);
                         topContext = getContext();
                         ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
                         recyclerView.setAdapter(new TopsRecyclerAdapter(garments, topContext));
