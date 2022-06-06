@@ -38,6 +38,7 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+
         Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment(),new DressFragment());
         return list.get(position);
     }

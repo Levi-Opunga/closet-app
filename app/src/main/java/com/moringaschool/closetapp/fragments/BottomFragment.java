@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
+import com.moringaschool.closetapp.adapters.BottomsRecyclerAdapter;
 import com.moringaschool.closetapp.adapters.ItemRecyclerAdapter;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
 import com.moringaschool.closetapp.models.Garment;
@@ -89,7 +90,7 @@ public class BottomFragment extends Fragment {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
                         recyclerView.setLayoutManager(gridLayoutManager);
                         ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new ItemRecyclerAdapter(garments, getContext()));
+                        recyclerView.setAdapter(new BottomsRecyclerAdapter(garments, getContext()));
                         Log.d("Success", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();

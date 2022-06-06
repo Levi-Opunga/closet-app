@@ -2,6 +2,7 @@ package com.moringaschool.closetapp.fragments;
 
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -36,12 +37,12 @@ import retrofit2.Callback;
 
 public class AllItemsFragment extends Fragment {
     ReveryApi reveryApi;
+    public static Context allContext;
     Response responses;
     @BindView(R.id.all_itemRA)
     RecyclerView AllItemsRecyclerView;
     long time;
-    @BindView(R.id.allButton)
-    Button button;
+
     @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
@@ -124,7 +125,9 @@ public class AllItemsFragment extends Fragment {
                         responses = response.body();
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
                         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
-                        AllItemsRecyclerView.setAdapter(new ItemRecyclerAdapter(responses.getGarments(), getContext()));
+                        allContext = getContext();
+                        AllItemsRecyclerView.setAdapter(new ItemRecyclerAdapter(responses.getGarments(),allContext));
+
                         Log.d("Success", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();

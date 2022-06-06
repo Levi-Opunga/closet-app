@@ -2,6 +2,7 @@ package com.moringaschool.closetapp.fragments;
 
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.adapters.ItemRecyclerAdapter;
+import com.moringaschool.closetapp.adapters.TopsRecyclerAdapter;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
 import com.moringaschool.closetapp.models.Garment;
 import com.moringaschool.closetapp.models.Response;
@@ -37,6 +39,8 @@ import retrofit2.Callback;
 
 
 public class TopFragment extends Fragment {
+    public static Context topContext;
+
     ReveryApi reveryApi;
     Response responses;
     @BindView(R.id.recyclerviewT)
@@ -88,8 +92,9 @@ public class TopFragment extends Fragment {
                         responses = response.body();
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
                         recyclerView.setLayoutManager(gridLayoutManager);
+                        topContext = getContext();
                         ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new ItemRecyclerAdapter(garments, getContext()));
+                        recyclerView.setAdapter(new TopsRecyclerAdapter(garments, topContext));
                         Log.d("Success", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();

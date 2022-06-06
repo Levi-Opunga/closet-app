@@ -105,7 +105,7 @@ public class ShoeFragment extends Fragment {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
                         recyclerView.setLayoutManager(gridLayoutManager);
                         //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext()));
+                        recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(),(ArrayList<String>) responses.getShoeModelIds()));
                         Log.d("Successtttttttt", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();

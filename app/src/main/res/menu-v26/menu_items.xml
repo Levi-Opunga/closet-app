@@ -16,6 +16,6 @@
         android:title="Change Theme"
         android:iconTint="@color/white"
         android:titleTextAppearance="@style/whiteColor"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="never" />
 
 </menu>
