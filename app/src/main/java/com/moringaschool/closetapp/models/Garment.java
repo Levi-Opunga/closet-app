@@ -28,6 +28,16 @@ public class Garment implements Serializable {
     @Expose
     private Tryon tryon;
 
+    private String pushId;
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
+
     /**
      * No args constructor for use in serialization
      * 

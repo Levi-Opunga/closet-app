@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.adapters.BottomsRecyclerAdapter;
@@ -50,22 +51,26 @@ public class BottomFragment extends Fragment {
     ProgressBar progressBar;
     String category = "bottoms";
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        refresh();
+
         return inflater.inflate(R.layout.fragment_bottom, container, false);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        display();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onRefresh() {
-                refresh();
+                display();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -88,17 +93,7 @@ public class BottomFragment extends Fragment {
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         responses = response.body();
-                        GridLayoutManager gridLayoutManager = null;
-                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
 
-                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
-
-                        }
-                        recyclerView.setLayoutManager(gridLayoutManager);
-                        ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new BottomsRecyclerAdapter(garments, getContext()));
                         Log.d("Success", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();
@@ -117,4 +112,19 @@ public class BottomFragment extends Fragment {
 
     }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
+  void   display(){
+      GridLayoutManager gridLayoutManager = null;
+      if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+          gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+      } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+          gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+      }
+      recyclerView.setLayoutManager(gridLayoutManager);
+      ArrayList<Garment> garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+      recyclerView.setAdapter(new BottomsRecyclerAdapter(garments, getContext()));
+
+    };
 }

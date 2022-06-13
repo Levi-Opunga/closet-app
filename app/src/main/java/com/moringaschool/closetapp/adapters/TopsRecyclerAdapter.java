@@ -23,6 +23,11 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
@@ -68,7 +73,7 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TopsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
+                    TopsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected,list);
 
                 }
             });
@@ -109,7 +114,7 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
     }
 
 
-    void showPopupMenu(View view, int position, ImageView itemImg) {
+    void showPopupMenu(View view, int position, ImageView itemImg,List<Garment> list) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.popup_menu, popup.getMenu());
@@ -138,15 +143,46 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
                     intent.putExtra("item", list.get(position));
                     context.startActivity(intent);
                 } else {
-                    itemImg.setVisibility(View.VISIBLE);
-                        ShareData.OutFit.top = list.get(position).getId();
-                        Toast.makeText(context,"top"+ ShareData.OutFit.top, Toast.LENGTH_SHORT).show();
+//                    itemImg.setVisibility(View.VISIBLE);
+//                        ShareData.OutFit.top = list.get(position).getId();
+//                        Toast.makeText(context,"top"+ ShareData.OutFit.top, Toast.LENGTH_SHORT).show();
+                   ItemRecyclerAdapter.save(position,itemImg,list);
+                 //  save(position,itemImg);
+
                 }
 
 
                 return false;
             }
         });
+
+
+
+    }
+    public void save(int position, ImageView itemImg) {
+        if (context == TopFragment.topContext) {
+            //SELECT
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
+            DatabaseReference pushRef = reference.push();
+            String pushId = pushRef.getKey();
+
+            list.get(position).setPushId(pushId);
+            pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
+
+                @Override
+                public void onComplete(@NonNull Task task) {
+
+                    if (task.isSuccessful()) {
+                        itemImg.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
+                        ShareData.OutFit.dress = list.get(position).getId();
+                    } else {
+                        itemImg.setVisibility(View.INVISIBLE);
+                        Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
 
     }
 }

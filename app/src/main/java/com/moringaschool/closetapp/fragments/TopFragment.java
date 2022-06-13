@@ -1,5 +1,6 @@
 package com.moringaschool.closetapp.fragments;
 
+import static com.moringaschool.closetapp.Constants.GARMENTS;
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
 import android.content.Context;
@@ -56,18 +57,21 @@ public class TopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        refresh();
+
         return inflater.inflate(R.layout.fragment_top, container, false);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
+        display();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                display();
                 refresh();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -91,18 +95,7 @@ public class TopFragment extends Fragment {
                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                     if (response.isSuccessful()) {
                         responses = response.body();
-                        GridLayoutManager gridLayoutManager = null;
-                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
-
-                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
-
-                        }                        recyclerView.setLayoutManager(gridLayoutManager);
-                        topContext = getContext();
-                        ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new TopsRecyclerAdapter(garments, topContext));
-                        Log.d("Success", "Suuuuuccccceeessssss");
+                             Log.d("Success", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();
 //                            fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
@@ -116,7 +109,24 @@ public class TopFragment extends Fragment {
 
                 }
             });
+
         }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void display(){
+        GridLayoutManager gridLayoutManager = null;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+        }                        recyclerView.setLayoutManager(gridLayoutManager);
+        topContext = getContext();
+        ArrayList<Garment> garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+        recyclerView.setAdapter(new TopsRecyclerAdapter(garments, topContext));
 
     }
 }

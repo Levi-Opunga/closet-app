@@ -138,13 +138,7 @@ public class BottomsRecyclerAdapter extends RecyclerView.Adapter<BottomsRecycler
                     intent.putExtra("item", list.get(position));
                     context.startActivity(intent);
                 } else {
-                    itemImg.setVisibility(View.VISIBLE);
-                    if (context == TopFragment.topContext) {
-
-                        ShareData.OutFit.bottom = list.get(position).getId();
-                        Toast.makeText(context,"bottom" + ShareData.OutFit.bottom, Toast.LENGTH_SHORT).show();
-                    }
-
+                    ItemRecyclerAdapter.save(position,itemImg,list);
                 }
 
 

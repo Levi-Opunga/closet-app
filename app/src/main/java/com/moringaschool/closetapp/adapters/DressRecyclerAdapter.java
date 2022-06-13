@@ -1,5 +1,6 @@
 package com.moringaschool.closetapp.adapters;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AndroidRuntimeException;
@@ -23,6 +24,12 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moringaschool.closetapp.AppUser;
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
@@ -39,8 +46,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdapter.myHolders> {
-    List<Garment> list;
-    Context context;
+    static List<Garment> list;
+    static Context context;
     View view;
 
     public DressRecyclerAdapter(List<Garment> list, Context context) {
@@ -65,13 +72,13 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
         holder.text.setText(list.get(position).getBrand());
         // holder.card.setOnClickListener(ItemRecyclerAdapter.showPopupMenu(view,list.get(position).getImageUrls().getProductImage()));
 
-            holder.card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DressRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DressRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
 
-                }
-            });
+            }
+        });
 
     }
 
@@ -114,7 +121,7 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.popup_menu, popup.getMenu());
 
-            popup.show();
+        popup.show();
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -125,6 +132,7 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
                 }
                 item.setChecked(true);
                 if (menu.getItem(1).isChecked()) {
+                    //Share
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
                     sendIntent.putExtra(Intent.EXTRA_TEXT, list.get(position).getImageUrls().getProductImage());
@@ -134,17 +142,12 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
                     context.startActivity(shareIntent);
                     Toast.makeText(context, "shared", Toast.LENGTH_SHORT).show();
                 } else if (menu.getItem(2).isChecked()) {
+                    //MORE INFO
                     Intent intent = new Intent(context, OneItemActivity.class);
                     intent.putExtra("item", list.get(position));
                     context.startActivity(intent);
                 } else {
-                    itemImg.setVisibility(View.VISIBLE);
-                    if (context == TopFragment.topContext) {
-
-                        ShareData.OutFit.dress = list.get(position).getId();
-                        Toast.makeText(context,"dresss    :" +ShareData.OutFit.dress, Toast.LENGTH_SHORT).show();
-                    }
-
+                    ItemRecyclerAdapter.save(position,itemImg,list);
                 }
 
 
@@ -153,4 +156,7 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
         });
 
     }
+
+
 }
+
