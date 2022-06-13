@@ -33,8 +33,8 @@ public class OneItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_item);
-        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
-        setSupportActionBar(myToolbar);
+//        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
+//        setSupportActionBar(myToolbar);
         ButterKnife.bind(this);
         Garment garment = (Garment) getIntent().getSerializableExtra("item");
         Picasso.get().load(garment.getImageUrls().getProductImage()).into(image);

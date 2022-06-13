@@ -2,6 +2,7 @@ package com.moringaschool.closetapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -19,10 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
@@ -39,8 +46,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapter.myHolders> {
-    List<Garment> list;
-    Context context;
+    static List<Garment> list;
+    static Context context;
     View view;
 
     public ItemRecyclerAdapter(List<Garment> list, Context context) {
@@ -168,4 +175,30 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 //    //    });
 //
 //    }
+public static void save(int position, ImageView itemImg,List<Garment> list) {
+    if (context == TopFragment.topContext) {
+        //SELECT
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
+        DatabaseReference pushRef = reference.push();
+        String pushId = pushRef.getKey();
+        list.get(position).setPushId(pushId);
+
+        pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
+
+            @Override
+            public void onComplete(@NonNull Task task) {
+
+                if (task.isSuccessful()) {
+                    itemImg.setVisibility(View.VISIBLE);
+                    Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
+                    ShareData.OutFit.dress = list.get(position).getId();
+                } else {
+                    itemImg.setVisibility(View.INVISIBLE);
+                    Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+}
 }

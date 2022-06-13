@@ -27,8 +27,6 @@ if(retrofit ==null) {
             .addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-
-
                     Request newRequest  = chain.request().newBuilder()
 //                            .addHeader("Content-Type","application/json")
                             .addHeader("public_key", PUBLIC_KEY)
@@ -40,7 +38,7 @@ if(retrofit ==null) {
     retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
             .build();
     Log.d("the build","done");
 }

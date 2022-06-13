@@ -92,6 +92,7 @@ public class ShoeFragment extends Fragment {
                         responses = response.body();
                         ArrayList<String> shoepaths = new ArrayList<>();
                         ShoePathsDict allShoes = responses.getShoePathsDict();
+
                         Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
                                 allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
                                 allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),

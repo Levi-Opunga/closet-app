@@ -17,6 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
@@ -112,12 +117,12 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
                     intent.putExtra("shoes", "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position));
                     context.startActivity(intent);
                 } else {
-                    itemImg.setVisibility(View.VISIBLE);
-                    if (context == TopFragment.topContext) {
-
-                        ShareData.OutFit.shoe = models.get(position);
-                        Toast.makeText(context,"bottom" + ShareData.OutFit.shoe, Toast.LENGTH_SHORT).show();
-                    }
+//                    itemImg.setVisibility(View.VISIBLE);
+//                    if (context == TopFragment.topContext) {
+//
+//                        ShareData.OutFit.shoe = models.get(position);
+//                        Toast.makeText(context,"bottom" + ShareData.OutFit.shoe, Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
 
@@ -127,5 +132,30 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
         });
 
     }
-
+//    public static void save(int position, ImageView itemImg) {
+//        if (context == TopFragment.topContext) {
+//            //SELECT
+//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
+//            DatabaseReference pushRef = reference.push();
+//            String pushId = pushRef.getKey();
+//
+//            list.get(position).setPushId(pushId);
+//            pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
+//
+//                @Override
+//                public void onComplete(@NonNull Task task) {
+//
+//                    if (task.isSuccessful()) {
+//                        itemImg.setVisibility(View.VISIBLE);
+//                        Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
+//                        ShareData.OutFit.dress = list.get(position).getId();
+//                    } else {
+//                        itemImg.setVisibility(View.INVISIBLE);
+//                        Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
 }
