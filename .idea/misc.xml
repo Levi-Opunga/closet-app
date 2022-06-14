@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/fragment_all_items.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_bottom.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_dress.xml" value="0.17028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_gender_filter.xml" value="0.21311475409836064" />
         <entry key="app/src/main/res/layout/fragment_shoe.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />

@@ -3,6 +3,7 @@ package com.moringaschool.closetapp.interfaces;
 
 import com.moringaschool.closetapp.models.Example;
 import com.moringaschool.closetapp.models.Response;
+import com.moringaschool.closetapp.models.female.FemaleShoe;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -41,6 +42,13 @@ public interface ReveryApi {
             @Header("one_time_code") String one_time_code,
             @Header("timestamp") String timestamp
     );
+    @GET("get_selected_shoes")
+    Call<FemaleShoe> getFemaleShoes(
+            @Query("gender") String gender,
+            @Header("one_time_code") String one_time_code,
+            @Header("timestamp") String timestamp
+    );
+
 
 
 }

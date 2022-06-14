@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -40,6 +41,7 @@ import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.adapters.ItemPagerAdapter;
 
+import com.moringaschool.closetapp.fragments.GenderFilterFragment;
 import com.moringaschool.closetapp.fragments.TopFragment;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
 import com.moringaschool.closetapp.models.Garment;
@@ -315,7 +317,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 item.setChecked(true);
                 if (menu.getItem(1).isChecked()) {
-                    Toast.makeText(getApplicationContext(), "toat", Toast.LENGTH_LONG).show();
+                   GenderFilterFragment fragment = new GenderFilterFragment();
+fragment.show(getSupportFragmentManager(),"gender");
+
                 } else if (menu.getItem(2).isChecked()) {
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(MainActivity.this,SignInOrUpActivity.class);
@@ -379,4 +383,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+
 }

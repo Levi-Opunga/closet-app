@@ -20,12 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.adapters.ShoesRecyclerAdapter;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
 import com.moringaschool.closetapp.models.Example;
 import com.moringaschool.closetapp.models.ShoePathsDict;
+import com.moringaschool.closetapp.models.female.FemaleShoe;
 import com.moringaschool.closetapp.network.ReveryClient;
 
 import java.util.ArrayList;
@@ -36,12 +38,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ShoeFragment extends Fragment {
 
     ReveryApi reveryApi;
     Example responses;
+    FemaleShoe fResponse;
     @BindView(R.id.recyclerviewS)
     RecyclerView recyclerView;
     long time;
@@ -49,7 +53,8 @@ public class ShoeFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    String gender = "male";
+    static String gender = Constants.GENDER;
+    ArrayList<String> shoepaths = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,66 +74,232 @@ public class ShoeFragment extends Fragment {
                 refresh();
                 swipeRefreshLayout.setRefreshing(false);
             }
-       });
+        });
         refresh();
         progressBar.setVisibility(View.GONE);
     }
 
 
-    private void refresh() {
-        for (int i = 0; i <= 1; i++) {
+    public void refresh() {
+        if (gender.equals("none")) {
+            method("none");
+        }
+
+        if (gender.equals("male")) {
+            method("male");
+
+        } else if (gender.equals("female")) {
+            method("female");
+
+        }
+
+
+    }
+
+    private void method(String gender) {
+        for (int i = 0; i <= 0; i++) {
             time = System.currentTimeMillis() / 1000;
 
             String derivedKey = Encryption.pbkdf2(SECRET_KEY, String.valueOf(time), 128, 32);
-            Log.d("thekeyisatCreate", derivedKey);
-
+            Log.d("thekeyisatTommmmmy", derivedKey);
             ReveryApi reveryApi = ReveryClient.getClient();
-            Call<Example> call = reveryApi.getShoes(gender, derivedKey, String.valueOf(time));
-            call.enqueue(new Callback<Example>() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
-                    if (response.isSuccessful()) {
-                        responses = response.body();
-                        ArrayList<String> shoepaths = new ArrayList<>();
-                        ShoePathsDict allShoes = responses.getShoePathsDict();
 
-                        Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
-                                allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
-                                allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),
-                                allShoes.getModel13319225(), allShoes.getModel12900360(), allShoes.getModel13590102(),
-                                allShoes.getModel13920494(), allShoes.getModel13590127(), allShoes.getModel13786388(),
-                                allShoes.getModel13654244(), allShoes.getModel15147224(), allShoes.getModel14038438(),
-                                allShoes.getModel13919837(), allShoes.getModel15006661(), allShoes.getModel15024291(),
-                                allShoes.getModel15189033(), allShoes.getModel14038461(), allShoes.getModel13743996(),
-                                allShoes.getModel13944054(), allShoes.getModel13738916(), allShoes.getModel13654211(),
-                                allShoes.getModel13903123(), allShoes.getModel13862238(), allShoes.getModel13952035(),
-                                allShoes.getModel14127779(), allShoes.getModel15016762(), allShoes.getModel14786919());
-                        GridLayoutManager gridLayoutManager = null;
-                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
+            if (gender.equals("male")) {
+                //  MALE
+                Call<Example> call = reveryApi.getShoes(gender, derivedKey, String.valueOf(time));
+                call.enqueue(new Callback<Example>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("thekeyisatTommmmmy", "iiinnnnnnTommmm");
+                            ArrayList<String> shoepaths = new ArrayList<>();
+                            responses = response.body();
+                            ShoePathsDict allShoes = responses.getShoePathsDict();
+                            Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
+                                    allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
+                                    allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),
+                                    allShoes.getModel13319225(), allShoes.getModel12900360(), allShoes.getModel13590102(),
+                                    allShoes.getModel13920494(), allShoes.getModel13590127(), allShoes.getModel13786388(),
+                                    allShoes.getModel13654244(), allShoes.getModel15147224(), allShoes.getModel14038438(),
+                                    allShoes.getModel13919837(), allShoes.getModel15006661(), allShoes.getModel15024291(),
+                                    allShoes.getModel15189033(), allShoes.getModel14038461(), allShoes.getModel13743996(),
+                                    allShoes.getModel13944054(), allShoes.getModel13738916(), allShoes.getModel13654211(),
+                                    allShoes.getModel13903123(), allShoes.getModel13862238(), allShoes.getModel13952035(),
+                                    allShoes.getModel14127779(), allShoes.getModel15016762(), allShoes.getModel14786919());
 
-                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                            GridLayoutManager gridLayoutManager = null;
+                            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                                gridLayoutManager = new GridLayoutManager(getContext(), 3);
 
-                        }                        recyclerView.setLayoutManager(gridLayoutManager);
-                        //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                        recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(),(ArrayList<String>) responses.getShoeModelIds()));
-                        Log.d("Successtttttttt", "Suuuuuccccceeessssss");
+                            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                            }
+                            recyclerView.setLayoutManager(gridLayoutManager);
+                            recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(), (ArrayList<String>) responses.getShoeModelIds()));
+                            Log.d("Successtttttttt", "Suuuuuccccceeessssss");
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Example> call, Throwable t) {
+                        Log.d("failtttttttt", "faillllllllllllllll");
+
+                    }
+                });
+
+
+
+
+            }
+
+
+            if (gender.equals("none")) {
+
+                Call<Example> call = reveryApi.getShoes("male", derivedKey, String.valueOf(time));
+                call.enqueue(new Callback<Example>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
+                        if (response.isSuccessful()) {
+                            responses = response.body();
+                            ArrayList<String> shoepaths = new ArrayList<>();
+                            ShoePathsDict allShoes = responses.getShoePathsDict();
+                            Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
+                                    allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
+                                    allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),
+                                    allShoes.getModel13319225(), allShoes.getModel12900360(), allShoes.getModel13590102(),
+                                    allShoes.getModel13920494(), allShoes.getModel13590127(), allShoes.getModel13786388(),
+                                    allShoes.getModel13654244(), allShoes.getModel15147224(), allShoes.getModel14038438(),
+                                    allShoes.getModel13919837(), allShoes.getModel15006661(), allShoes.getModel15024291(),
+                                    allShoes.getModel15189033(), allShoes.getModel14038461(), allShoes.getModel13743996(),
+                                    allShoes.getModel13944054(), allShoes.getModel13738916(), allShoes.getModel13654211(),
+                                    allShoes.getModel13903123(), allShoes.getModel13862238(), allShoes.getModel13952035(),
+                                    allShoes.getModel14127779(), allShoes.getModel15016762(), allShoes.getModel14786919());
+
+                            Call<FemaleShoe> call2 = reveryApi.getFemaleShoes("female", derivedKey, String.valueOf(time));
+                            call2.enqueue(new Callback<FemaleShoe>() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
+                                @Override
+                                public void onResponse(Call<FemaleShoe> call, retrofit2.Response<FemaleShoe> response) {
+                                    if (response.isSuccessful()) {
+                                        fResponse = response.body();
+                                        com.moringaschool.closetapp.models.female.ShoePathsDict allShoes = fResponse.getShoePathsDict();
+
+                                        Collections.addAll(shoepaths, allShoes.getModel13300343(),
+                                                allShoes.getModel13417676(), allShoes.getModel13483572(), allShoes.getModel12466865(), allShoes.getModel12949144(), allShoes.getModel13440398(), allShoes.getModel14196619(), allShoes.getModel13160864(), allShoes.getModel14235837(),
+                                                allShoes.getModel13136326(), allShoes.getModel14421519(), allShoes.getModel13346777(), allShoes.getModel14881242(),
+                                                allShoes.getModel14108606(), allShoes.getModel12876015(), allShoes.getModel13229201(), allShoes.getModel14143445(), allShoes.getModel12742869(), allShoes.getModel13015229(), allShoes.getModel13647165(), allShoes.getModel13086347(), allShoes.getModel13104825(), allShoes.getModel13565475(), allShoes.getModel13447432(),
+                                                allShoes.getModel14402253(), allShoes.getModel13459469(), allShoes.getModel15033006(), allShoes.getModel13279604(), allShoes.getModel13131087(), allShoes.getModel13440366(), allShoes.getModel14285769(), allShoes.getModel13591062(), allShoes.getModel13241867(), allShoes.getModel13139372(), allShoes.getModel13012154(), allShoes.getModel13109470(), allShoes.getModel13201269(), allShoes.getModel12778777(), allShoes.getModel13466933());
+
+                                        GridLayoutManager gridLayoutManager = null;
+                                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                                            gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                                        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                            gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                                        }
+                                        recyclerView.setLayoutManager(gridLayoutManager);
+                                        List<String> strings = fResponse.getShoeModelIds();
+                                        strings.addAll(responses.getShoeModelIds());
+                                        recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(), (ArrayList<String>) strings));
+                                        Log.d("Successtoooooommmyyyy", "Suuuuutttttttttttttttttttttttttt");
+//
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<FemaleShoe> call, Throwable t) {
+
+                                }
+
+
+                          });
+//                            GridLayoutManager gridLayoutManager = null;
+//                            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//                                gridLayoutManager = new GridLayoutManager(getContext(), 3);
+//
+//                            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                                gridLayoutManager = new GridLayoutManager(getContext(), 2);
+//
+//                            }
+//                            recyclerView.setLayoutManager(gridLayoutManager);
+//                            //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+//                            recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(), (ArrayList<String>) responses.getShoeModelIds()));
+//                            Log.d("Successtttttttt", "Suuuuuccccceeessssss");
 //                            FragmentManager fragmentManager = getSupportFragmentManager();
 //                            AllItemsFragment fragment = new AllItemsFragment();
 //                            fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
 
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Example> call, Throwable t) {
-                    Log.d("failtttttttt", "faillllllllllllllll");
+                    @Override
+                    public void onFailure(Call<Example> call, Throwable t) {
+                        Log.d("failtttttttt", "faillllllllllllllll");
 
-                }
-            });
+                    }
+                });
+
+
+            }
+
+            if (gender.equals("female")) {
+
+                Call<FemaleShoe> call = reveryApi.getFemaleShoes(gender, derivedKey, String.valueOf(time));
+                call.enqueue(new Callback<FemaleShoe>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(Call<FemaleShoe> call, retrofit2.Response<FemaleShoe> response) {
+                        if (response.isSuccessful()) {
+                            fResponse = response.body();
+                            ArrayList<String> shoepaths = new ArrayList<>();
+
+                            com.moringaschool.closetapp.models.female.ShoePathsDict allShoes = fResponse.getShoePathsDict();
+
+                            Collections.addAll(shoepaths, allShoes.getModel13300343(),
+                                    allShoes.getModel13417676(), allShoes.getModel13483572(),
+                                    allShoes.getModel12466865(), allShoes.getModel12949144(), allShoes.getModel13440398(), allShoes.getModel14196619(),
+                                    allShoes.getModel13160864(), allShoes.getModel14235837(),
+                                    allShoes.getModel13136326(), allShoes.getModel14421519(), allShoes.getModel13346777(), allShoes.getModel14881242(), allShoes.getModel14108606(), allShoes.getModel12876015(), allShoes.getModel13229201(), allShoes.getModel14143445(),
+                                    allShoes.getModel12742869(), allShoes.getModel13015229(), allShoes.getModel13647165(), allShoes.getModel13086347(), allShoes.getModel13104825(), allShoes.getModel13565475(),
+                                    allShoes.getModel13447432(), allShoes.getModel14402253(), allShoes.getModel13459469(), allShoes.getModel15033006(), allShoes.getModel13279604(),
+                                    allShoes.getModel13131087(), allShoes.getModel13440366(), allShoes.getModel14285769(), allShoes.getModel13591062(), allShoes.getModel13241867(), allShoes.getModel13139372(), allShoes.getModel13012154(), allShoes.getModel13109470(), allShoes.getModel13201269(), allShoes.getModel12778777(), allShoes.getModel13466933());
+
+
+                            GridLayoutManager gridLayoutManager = null;
+                            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                                gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+                            }
+                            recyclerView.setLayoutManager(gridLayoutManager);
+                            //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+                            recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, getContext(), (ArrayList<String>) fResponse.getShoeModelIds()));
+                            Log.d("Successtttttttt", "Suuuuuccccceeessssss");
+//
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<FemaleShoe> call, Throwable t) {
+
+                    }
+
+
+                });
+
+            }
+
+
         }
-
     }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
+    public static String GENDER= "none";
     public static List<Garment> RESTORE= new ArrayList<Garment>();
     public static List<Garment> GARMENTS= new ArrayList<Garment>();
     public  final static String BASE_URL = "https://api.revery.ai/console/v1/";

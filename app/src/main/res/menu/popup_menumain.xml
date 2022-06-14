@@ -4,9 +4,8 @@
         android:id="@+id/Mail"
         android:title="Change Theme" />
     <item
-        android:id="@+id/share"
-        android:title="werty"
-       />
+        android:id="@+id/gender"
+        android:title="Change Gender" />
 
     <item
         android:id="@+id/MoreInfo"
