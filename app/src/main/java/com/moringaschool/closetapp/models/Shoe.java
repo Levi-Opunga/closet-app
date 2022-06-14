@@ -1,11 +1,21 @@
 package com.moringaschool.closetapp.models;
 
-public class Shoe {
+import java.io.Serializable;
+
+public class Shoe implements Serializable {
     private  String url;
     private String modelId;
 private String pushId;
 
+    public Shoe(String url, String modelId, String pushId) {
+        this.url = url;
+        this.modelId = modelId;
+        this.pushId = pushId;
+    }
 
+    public  Shoe (){
+
+    }
     public Shoe(String url, String modelId) {
         this.url = url;
         this.modelId = modelId;

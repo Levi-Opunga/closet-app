@@ -23,49 +23,43 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
-import com.moringaschool.closetapp.ShareData;
-import com.moringaschool.closetapp.fragments.AllItemsFragment;
 import com.moringaschool.closetapp.fragments.TopFragment;
-import com.moringaschool.closetapp.models.Garment;
 import com.moringaschool.closetapp.models.Shoe;
-import com.moringaschool.closetapp.ui.OneItemActivity;
 import com.moringaschool.closetapp.ui.OneShoeActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdapter.myHolders>  {
-    static ArrayList<String> list;
+public class SavedShoesRecyclerAdapter extends RecyclerView.Adapter<SavedShoesRecyclerAdapter.myHolders>  {
+     static ArrayList<Shoe> list;
     static Context context;
-    static ArrayList<String> models;
-    public ShoesRecyclerAdapter(ArrayList<String> list, Context context,ArrayList<String> models) {
+    
+    public SavedShoesRecyclerAdapter(ArrayList<Shoe> list, Context context) {
         this.list = list;
         this.context = context;
-        this.models = models;
+        
     }
 
     @NonNull
     @Override
-    public ShoesRecyclerAdapter.myHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SavedShoesRecyclerAdapter.myHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.display_item,parent,false);
-        return new ShoesRecyclerAdapter.myHolders(view);
+        return new SavedShoesRecyclerAdapter.myHolders(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull ShoesRecyclerAdapter.myHolders holder, int position) {
-        Picasso.get().load("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position)).into(holder.itemImg);
+    public void onBindViewHolder(@NonNull SavedShoesRecyclerAdapter.myHolders holder, int position) {
+        Picasso.get().load(list.get(position).getUrl()).into(holder.itemImg);
         holder.text.setText(String.valueOf(position+1));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected);
+SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected);
             }
         });
     }
@@ -140,8 +134,8 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Shoes").child(Constants.uid);
             DatabaseReference pushRef = reference.push();
             String pushId = pushRef.getKey();
-            Shoe newShoe = new Shoe("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position),models.get(position),pushId);
-
+            Shoe newShoe = list.get(position);
+newShoe.setPushId(pushId);
             pushRef.setValue(newShoe).addOnCompleteListener(new OnCompleteListener() {
 
                 @Override
