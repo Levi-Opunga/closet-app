@@ -27,6 +27,7 @@ import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
 import com.moringaschool.closetapp.fragments.TopFragment;
 import com.moringaschool.closetapp.models.Garment;
+import com.moringaschool.closetapp.models.Shoe;
 import com.moringaschool.closetapp.ui.OneItemActivity;
 import com.moringaschool.closetapp.ui.OneShoeActivity;
 import com.squareup.picasso.Picasso;
@@ -55,6 +56,7 @@ public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdap
         View view = layoutInflater.inflate(R.layout.display_item,parent,false);
         return new ShoesRecyclerAdapter.myHolders(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ShoesRecyclerAdapter.myHolders holder, int position) {
@@ -92,7 +94,7 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
   static   void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        inflater.inflate(R.menu.popup_menushoe, popup.getMenu());
 
             popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -119,10 +121,10 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
                 } else {
 //                    itemImg.setVisibility(View.VISIBLE);
 //                    if (context == TopFragment.topContext) {
-//
 //                        ShareData.OutFit.shoe = models.get(position);
 //                        Toast.makeText(context,"bottom" + ShareData.OutFit.shoe, Toast.LENGTH_SHORT).show();
 //                    }
+                    save(position,itemImg);
 
                 }
 
@@ -132,30 +134,30 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
         });
 
     }
-//    public static void save(int position, ImageView itemImg) {
-//        if (context == TopFragment.topContext) {
-//            //SELECT
-//            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
-//            DatabaseReference pushRef = reference.push();
-//            String pushId = pushRef.getKey();
-//
-//            list.get(position).setPushId(pushId);
-//            pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
-//
-//                @Override
-//                public void onComplete(@NonNull Task task) {
-//
-//                    if (task.isSuccessful()) {
-//                        itemImg.setVisibility(View.VISIBLE);
-//                        Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
-//                        ShareData.OutFit.dress = list.get(position).getId();
-//                    } else {
-//                        itemImg.setVisibility(View.INVISIBLE);
-//                        Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            });
-//        }
-//
-//    }
+    public static void save(int position,ImageView itemImg) {
+        if (context == TopFragment.topContext) {
+            //SELECT
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Shoes").child(Constants.uid);
+            DatabaseReference pushRef = reference.push();
+            String pushId = pushRef.getKey();
+            Shoe newShoe = new Shoe("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position),models.get(position));
+newShoe.setPushId(pushId);
+            pushRef.setValue(newShoe).addOnCompleteListener(new OnCompleteListener() {
+
+                @Override
+                public void onComplete(@NonNull Task task) {
+
+                    if (task.isSuccessful()) {
+                        itemImg.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
+                      //  ShareData.OutFit.dress = list.get(position).getId();
+                    } else {
+                        itemImg.setVisibility(View.INVISIBLE);
+                        Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
+    }
 }

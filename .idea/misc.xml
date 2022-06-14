@@ -18,6 +18,7 @@
         <entry key="app/src/main/res/font/cookie.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/font/lobster.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-land/activity_one_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout-land/activity_one_shoe.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.5" />
@@ -40,6 +41,7 @@
         <entry key="app/src/main/res/menu-v26/menu_items.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_items.xml" value="0.27647058823529413" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/popup_menuShoe.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/popup_menumain.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/popup_menusaved.xml" value="0.1890625" />
       </map>

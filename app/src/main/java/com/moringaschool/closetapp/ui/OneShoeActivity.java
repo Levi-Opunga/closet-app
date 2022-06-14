@@ -35,8 +35,8 @@ public class OneShoeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_item);
-        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
-        setSupportActionBar(myToolbar);
+//        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
+//        setSupportActionBar(myToolbar);
         ButterKnife.bind(this);
         String shoes = (String) getIntent().getSerializableExtra("shoes");
         Picasso.get().load(shoes).into(image);
