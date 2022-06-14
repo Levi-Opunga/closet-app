@@ -1,5 +1,7 @@
 package com.moringaschool.closetapp.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.AndroidRuntimeException;
@@ -117,8 +119,10 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
     void showPopupMenu(View view, int position, ImageView itemImg,List<Garment> list) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_menu, popup.getMenu());
-
+        if(Constants.saved){
+            inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
+        }else{
+            inflater.inflate(R.menu.popup_menu, popup.getMenu());}
             popup.show();
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -47,6 +47,7 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
         if (v == femaleButton) {
       Constants.GENDER = "female";
       ShoeFragment.gender = Constants.GENDER;
+
 //      ShoeFragment shoe = new ShoeFragment();
 //      shoe.refresh();
             dismiss();

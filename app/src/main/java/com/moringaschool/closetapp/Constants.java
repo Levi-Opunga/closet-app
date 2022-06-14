@@ -11,6 +11,8 @@ public class Constants {
     public static String GENDER= "none";
     public static List<Garment> RESTORE= new ArrayList<Garment>();
     public static List<Garment> GARMENTS= new ArrayList<Garment>();
+    public static List<Garment> SAVED_RESTORE= new ArrayList<Garment>();
+    public static List<Garment> SAVED_GARMENTS= new ArrayList<Garment>();
     public  final static String BASE_URL = "https://api.revery.ai/console/v1/";
     public  final static String SECRET_KEY = BuildConfig.SECRET_KEY;
     public final static String PUBLIC_KEY = BuildConfig.PUBLIC_KEY;
@@ -20,4 +22,5 @@ public class Constants {
 
     public final static String uid=  FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+    public static boolean saved;
 }

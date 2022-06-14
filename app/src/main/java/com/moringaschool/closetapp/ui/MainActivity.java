@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //        setSupportActionBar(myToolbar);
         Log.d("onCreate", "creaaaaaaaaate");
 
-        String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses"};
+        String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses","Saved"};
         int[] icons = new int[]{R.drawable.img_2, R.drawable.img, R.drawable.img_1, R.drawable.img_3};
         Arrays.stream(tabs).forEach(tab -> tabLayout.addTab(tabLayout.newTab().setText(tab)));
 
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.getTabAt(i + 1).setIcon(icons[i]);
 
         }
+
         tabLayout.setTabIndicatorFullWidth(true);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -104,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                if (tab.getPosition() != 0)
+
+                if (tab.getPosition() != 0 && tab.getPosition()<5)
                     tab.setText("");
             }
 
@@ -247,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     void refresh() {
         progressBar.setVisibility(View.VISIBLE);
+
         for (int i = 0; i <= 0; i++) {
             time = System.currentTimeMillis() / 1000;
 

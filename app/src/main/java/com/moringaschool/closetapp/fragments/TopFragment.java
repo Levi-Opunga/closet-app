@@ -72,7 +72,7 @@ public class TopFragment extends Fragment {
             @Override
             public void onRefresh() {
                 display();
-                refresh();
+
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

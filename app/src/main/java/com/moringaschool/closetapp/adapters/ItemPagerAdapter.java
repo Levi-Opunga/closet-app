@@ -10,6 +10,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
 import com.moringaschool.closetapp.fragments.BottomFragment;
 import com.moringaschool.closetapp.fragments.DressFragment;
+import com.moringaschool.closetapp.fragments.SavedOptionsFragment;
 import com.moringaschool.closetapp.fragments.ShoeFragment;
 import com.moringaschool.closetapp.fragments.TopFragment;
 
@@ -39,12 +40,12 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-        Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment(),new DressFragment());
+        Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment(),new DressFragment(),new SavedOptionsFragment());
         return list.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 }
