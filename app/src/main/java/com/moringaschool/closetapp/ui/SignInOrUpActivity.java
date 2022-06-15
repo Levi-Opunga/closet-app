@@ -87,6 +87,7 @@ public class SignInOrUpActivity extends AppCompatActivity {
         });
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -101,7 +102,7 @@ public class SignInOrUpActivity extends AppCompatActivity {
         }
     }
 
-    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+    private void createFirebaseUserProfile(final FirebaseUser user, String name) {
 
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -114,7 +115,7 @@ public class SignInOrUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
-                        }else{
+                        } else {
                             Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
 
                         }

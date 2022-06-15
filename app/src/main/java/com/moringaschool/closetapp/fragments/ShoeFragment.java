@@ -47,8 +47,8 @@ public class ShoeFragment extends Fragment {
     ReveryApi reveryApi;
     static Example responses;
     static FemaleShoe fResponse;
-//    @BindView(R.id.recyclerviewS)
-   public static RecyclerView recyclerView;
+    //    @BindView(R.id.recyclerviewS)
+    public static RecyclerView recyclerView;
     static long time;
     @BindView(R.id.swiperefresh3)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -58,7 +58,7 @@ public class ShoeFragment extends Fragment {
     static ArrayList<String> shoepaths = new ArrayList<>();
     static ShoePathsDict allShoes;
     static com.moringaschool.closetapp.models.female.ShoePathsDict allShoesFemale;
-    static List<String> strings= new ArrayList<>();
+    static List<String> strings = new ArrayList<>();
     static GridLayoutManager gridLayoutManager;
     private static Context context;
 
@@ -74,7 +74,7 @@ public class ShoeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        recyclerView= view.findViewById(R.id.recyclerviewS);
+        recyclerView = view.findViewById(R.id.recyclerviewS);
         context = getContext();
         gridLayoutManager = null;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -147,7 +147,7 @@ public class ShoeFragment extends Fragment {
 
                             recyclerView.setLayoutManager(gridLayoutManager);
 
-                         strings =   responses.getShoeModelIds();
+                            strings = responses.getShoeModelIds();
                             recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, context, strings));
                             Log.d("Successtttttttt", "Suuuuuccccceeessssss");
                         }

@@ -68,8 +68,8 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
     public static Context mainContext;
-//    @BindView(R.id.tabLayout)
-  public static   TabLayout tabLayout;
+    //    @BindView(R.id.tabLayout)
+    public static TabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager2 viewPager2;
     @Nullable
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     List<Garment> garments;
     List<Garment> restore;
     private long pressedTime;
-    private   FirebaseAuth mAuth ;
+    private FirebaseAuth mAuth;
 
 
     long time;
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Constants.saved =false;
+        Constants.saved = false;
         tabLayout = this.findViewById(R.id.tabLayout);
-      Log.d("onCreate", "creaaaaaaaaate");
+        Log.d("onCreate", "creaaaaaaaaate");
 
-        String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses","Saved"};
+        String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses", "Saved"};
         int[] icons = new int[]{R.drawable.img_2, R.drawable.img, R.drawable.img_1, R.drawable.img_3};
         Arrays.stream(tabs).forEach(tab -> tabLayout.addTab(tabLayout.newTab().setText(tab)));
 
@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
+                if (Constants.GENDER.equals("male") && tab.getPosition() == 4) {
                     tab.setText("saved");
-                    viewPager2.setCurrentItem(tabLayout.getSelectedTabPosition()+1);
+                    viewPager2.setCurrentItem(tabLayout.getSelectedTabPosition() + 1);
 
                     return;
                 }
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
-    tab.setText("saved");
-    return;
-}
-                if (tab.getPosition() != 0 && tab.getPosition()<5)
+                if (Constants.GENDER.equals("male") && tab.getPosition() == 4) {
+                    tab.setText("saved");
+                    return;
+                }
+                if (tab.getPosition() != 0 && tab.getPosition() < 5)
                     tab.setText("");
             }
 
@@ -149,7 +149,7 @@ if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 //createFirebaseUserProfile(user,"levi");
                 if (user != null) {
-                    getSupportActionBar().setTitle("Welcome to " +user.getDisplayName()+ "'s closet" );
+                    getSupportActionBar().setTitle("Welcome to " + user.getDisplayName() + "'s closet");
                 } else {
 
                 }
@@ -162,16 +162,16 @@ if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        Constants.saved =false;
-       // refresh();
-mildRefresh();
+        Constants.saved = false;
+        // refresh();
+        mildRefresh();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mAuth.addAuthStateListener(mAuthListener);
-        Constants.saved =false;
+        Constants.saved = false;
         //refresh();
         mildRefresh();
     }
@@ -180,7 +180,7 @@ mildRefresh();
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
-       // applyFontToMenu(menu,getApplicationContext());
+        // applyFontToMenu(menu,getApplicationContext());
         ButterKnife.bind(this);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/designer.ttf");
 
@@ -242,15 +242,6 @@ mildRefresh();
     }
 
 
-//
-//    void showPopupMenu(View view) {
-//        PopupMenu popup = new PopupMenu(this, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.popup_menu, popup.getMenu());
-//        popup.show();
-//    }
-
-
     void refresh() {
         progressBar.setVisibility(View.VISIBLE);
 
@@ -272,8 +263,6 @@ mildRefresh();
                         Constants.RESTORE = garments;
                         Constants.GARMENTS = garments;
                         mainContext = getApplicationContext();
-
-
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
                         viewPager2.setAdapter(itemPagerAdapter);
@@ -299,8 +288,6 @@ mildRefresh();
         ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(itemPagerAdapter);
     }
-
-
 
 
     @Override
@@ -334,12 +321,12 @@ mildRefresh();
                 }
                 item.setChecked(true);
                 if (menu.getItem(1).isChecked()) {
-                   GenderFilterFragment fragment = new GenderFilterFragment();
-fragment.show(getSupportFragmentManager(),"gender");
+                    GenderFilterFragment fragment = new GenderFilterFragment();
+                    fragment.show(getSupportFragmentManager(), "gender");
 
                 } else if (menu.getItem(2).isChecked()) {
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(MainActivity.this,SignInOrUpActivity.class);
+                    Intent intent = new Intent(MainActivity.this, SignInOrUpActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -363,8 +350,6 @@ fragment.show(getSupportFragmentManager(),"gender");
     }
 
 
-
-
     @Override
     public void onStop() {
         super.onStop();
@@ -374,22 +359,24 @@ fragment.show(getSupportFragmentManager(),"gender");
     }
 
 
-public static void applyFontToMenu(Menu m, Context mContext){
-    for(int i=0;i<m.size();i++) {
-        applyFontToMenuItem(m.getItem(i),mContext);
+    public static void applyFontToMenu(Menu m, Context mContext) {
+        for (int i = 0; i < m.size(); i++) {
+            applyFontToMenuItem(m.getItem(i), mContext);
+        }
     }
-}
+
     public static void applyFontToMenuItem(MenuItem mi, Context mContext) {
-        if(mi.hasSubMenu())
-            for(int i=0;i<mi.getSubMenu().size();i++) {
-                applyFontToMenuItem(mi.getSubMenu().getItem(i),mContext);
+        if (mi.hasSubMenu())
+            for (int i = 0; i < mi.getSubMenu().size(); i++) {
+                applyFontToMenuItem(mi.getSubMenu().getItem(i), mContext);
             }
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/designer.ttf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
         mNewTitle.setSpan(new CustomTypefaceSpan("", font, mContext), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mi.setTitle(mNewTitle);
     }
-    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+
+    private void createFirebaseUserProfile(final FirebaseUser user, String name) {
 
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -402,7 +389,7 @@ public static void applyFontToMenu(Menu m, Context mContext){
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
-                        }else{
+                        } else {
                             Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
 
                         }

@@ -39,11 +39,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdapter.myHolders>  {
+public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdapter.myHolders> {
     static List<String> list;
     static Context context;
     static List<String> models;
-    public ShoesRecyclerAdapter(List<String> list, Context context,List<String> models) {
+
+    public ShoesRecyclerAdapter(List<String> list, Context context, List<String> models) {
         this.list = list;
         this.context = context;
         this.models = models;
@@ -53,19 +54,19 @@ public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdap
     @Override
     public ShoesRecyclerAdapter.myHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.display_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.display_item, parent, false);
         return new ShoesRecyclerAdapter.myHolders(view);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ShoesRecyclerAdapter.myHolders holder, int position) {
-        Picasso.get().load("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position)).into(holder.itemImg);
-        holder.text.setText(String.valueOf(position+1));
+        Picasso.get().load("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/" + list.get(position)).into(holder.itemImg);
+        holder.text.setText(String.valueOf(position + 1));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected);
+                ShoesRecyclerAdapter.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
             }
         });
     }
@@ -84,23 +85,24 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
         CardView card;
         @BindView(R.id.selected)
         ImageView selected;
+
         public myHolders(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
 
         }
     }
 
-  static   void showPopupMenu(View view, int position, ImageView itemImg) {
+    static void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-      if(Constants.saved){
-          inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
-      }else {
-          inflater.inflate(R.menu.popup_menu, popup.getMenu());
-      }
+        if (Constants.saved) {
+            inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
+        } else {
+            inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        }
 
-            popup.show();
+        popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -112,7 +114,7 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
                 if (menu.getItem(1).isChecked()) {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position));
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/" + list.get(position));
                     sendIntent.setType("text/plain");
 
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
@@ -120,7 +122,7 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
                     Toast.makeText(context, "shared", Toast.LENGTH_SHORT).show();
                 } else if (menu.getItem(2).isChecked()) {
                     Intent intent = new Intent(context, OneShoeActivity.class);
-                    intent.putExtra("shoes", "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position));
+                    intent.putExtra("shoes", "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/" + list.get(position));
                     context.startActivity(intent);
                 } else {
 //                    itemImg.setVisibility(View.VISIBLE);
@@ -128,7 +130,7 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
 //                        ShareData.OutFit.shoe = models.get(position);
 //                        Toast.makeText(context,"bottom" + ShareData.OutFit.shoe, Toast.LENGTH_SHORT).show();
 //                    }
-                    save(position,itemImg);
+                    save(position, itemImg);
 
                 }
 
@@ -138,13 +140,14 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
         });
 
     }
-    public static void save(int position,ImageView itemImg) {
+
+    public static void save(int position, ImageView itemImg) {
         if (context == TopFragment.topContext) {
             //SELECT
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Shoes").child(Constants.uid);
             DatabaseReference pushRef = reference.push();
             String pushId = pushRef.getKey();
-            Shoe newShoe = new Shoe("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position),models.get(position),pushId);
+            Shoe newShoe = new Shoe("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/" + list.get(position), models.get(position), pushId);
 
             pushRef.setValue(newShoe).addOnCompleteListener(new OnCompleteListener() {
 
@@ -154,7 +157,7 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
                     if (task.isSuccessful()) {
                         itemImg.setVisibility(View.VISIBLE);
                         Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
-                      //  ShareData.OutFit.dress = list.get(position).getId();
+                        //  ShareData.OutFit.dress = list.get(position).getId();
                     } else {
                         itemImg.setVisibility(View.INVISIBLE);
                         Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();

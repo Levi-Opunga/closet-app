@@ -64,10 +64,10 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-text.setOnClickListener(v->{
-    TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout2);
-    tabLayout.selectTab(tabLayout.getTabAt(0));
-});
+        text.setOnClickListener(v -> {
+            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout2);
+            tabLayout.selectTab(tabLayout.getTabAt(0));
+        });
         button.setOnClickListener(v -> {
             createUser();
         });
@@ -87,8 +87,8 @@ text.setOnClickListener(v->{
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = user.getUid();
-                    Log.d("name",name);
-                    createFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()),name);
+                    Log.d("name", name);
+                    createFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()), name);
                     Log.d("created user", "wertyuioptyuio");
                     DatabaseReference restaurantRef = FirebaseDatabase
                             .getInstance()
@@ -115,7 +115,8 @@ text.setOnClickListener(v->{
             }
         });
     }
-    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+
+    private void createFirebaseUserProfile(final FirebaseUser user, String name) {
 
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -128,7 +129,7 @@ text.setOnClickListener(v->{
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
-                        }else{
+                        } else {
                             Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
 
                         }

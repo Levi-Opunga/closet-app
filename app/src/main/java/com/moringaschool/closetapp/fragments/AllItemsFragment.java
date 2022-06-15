@@ -50,8 +50,7 @@ public class AllItemsFragment extends Fragment {
     public static ItemRecyclerAdapter adapter;
     public static List<Garment> garments;
 
-    //    @BindView(R.id.swiperefresh)
-//    public static
+
     public static SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -60,8 +59,6 @@ public class AllItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        Intent intent = getActivity().getIntent();
-//        response = (Response) intent.getSerializableExtra("Response");
         return inflater.inflate(R.layout.fragment_all_items, container, false);
 
     }

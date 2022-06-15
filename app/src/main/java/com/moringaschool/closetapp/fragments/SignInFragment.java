@@ -28,16 +28,15 @@ import butterknife.ButterKnife;
 
 
 public class SignInFragment extends Fragment {
-FirebaseAuth auth;
+    FirebaseAuth auth;
     @BindView(R.id.signInBtn)
-    Button  button;
-@BindView(R.id.editEmailSignIN)
+    Button button;
+    @BindView(R.id.editEmailSignIN)
     EditText email;
-@BindView(R.id.editPassSignIn)
-EditText password;
-@BindView(R.id.signUpText)
+    @BindView(R.id.editPassSignIn)
+    EditText password;
+    @BindView(R.id.signUpText)
     TextView text;
-
 
 
     @Override
@@ -52,39 +51,39 @@ EditText password;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        text.setOnClickListener(v->{
+        text.setOnClickListener(v -> {
             TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout2);
             tabLayout.selectTab(tabLayout.getTabAt(1));
         });
-        button.setOnClickListener(v->{
+        button.setOnClickListener(v -> {
             String email = this.email.getText().toString().trim();
             String password = this.password.getText().toString().trim();
-            if(!Validation.ValidEmail(email)&&!Validation.ValidPassword(password)){
+            if (!Validation.ValidEmail(email) && !Validation.ValidPassword(password)) {
                 this.email.setError("Invalid Email");
                 this.email.findFocus();
                 this.password.setError("Invalid Password");
                 this.password.findFocus();
                 return;
             }
-            if(!Validation.ValidEmail(email)){
+            if (!Validation.ValidEmail(email)) {
                 this.email.setError("Invalid Email");
                 this.email.findFocus();
                 return;
             }
-            if(!Validation.ValidPassword(password)){
+            if (!Validation.ValidPassword(password)) {
                 this.password.setError("Invalid Password");
                 this.password.findFocus();
                 return;
             }
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener() {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
-                    }else{
-                      setErrors();
-                        Toast.makeText(getContext(), "Incorrect Email or password",Toast.LENGTH_LONG).show();
+                    } else {
+                        setErrors();
+                        Toast.makeText(getContext(), "Incorrect Email or password", Toast.LENGTH_LONG).show();
 
 
                     }
@@ -95,7 +94,8 @@ EditText password;
         });
 
     }
-    void setErrors(){
+
+    void setErrors() {
         this.email.setError("Incorrect Email");
         this.email.findFocus();
         this.password.setError("Incorrect Password");

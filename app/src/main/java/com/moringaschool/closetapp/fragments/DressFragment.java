@@ -47,8 +47,8 @@ public class DressFragment extends Fragment {
     private static Context context;
     ReveryApi reveryApi;
     Response responses;
-   // @BindView(R.id.recyclerviewD)
-  public static RecyclerView recyclerView;
+    // @BindView(R.id.recyclerviewD)
+    public static RecyclerView recyclerView;
     long time;
     @BindView(R.id.swiperefresh4)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -129,13 +129,14 @@ public class DressFragment extends Fragment {
 
         }
         recyclerView.setLayoutManager(gridLayoutManager);
-    garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-    adapter = new DressRecyclerAdapter(garments, getContext());
+        garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+        adapter = new DressRecyclerAdapter(garments, getContext());
         recyclerView.setAdapter(adapter);
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void externalRefreshLayout(){
+    public static void externalRefreshLayout() {
         gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());

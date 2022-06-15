@@ -25,7 +25,7 @@
         <entry key="app/src/main/res/layout/activity_one_item.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_one_shoe.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_saved_clothes.xml" value="0.11639492753623189" />
-        <entry key="app/src/main/res/layout/activity_saved_shoes.xml" value="0.11639492753623189" />
+        <entry key="app/src/main/res/layout/activity_saved_shoes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_in_or_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/display_item.xml" value="0.2186046511627907" />
         <entry key="app/src/main/res/layout/fragment_all_items.xml" value="0.1" />
@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/menu/popup_menumain.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/popup_menusaved.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/popup_menushoe.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/popup_menushoes.xml" value="0.1890625" />
       </map>
     </option>
   </component>

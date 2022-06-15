@@ -71,14 +71,14 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         Picasso.get().load(list.get(position).getImageUrls().getProductImage()).into(holder.itemImg);
         holder.text.setText(list.get(position).getBrand());
 
-            holder.card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, OneItemActivity.class);
-                    intent.putExtra("item", list.get(position));
-                    context.startActivity(intent);
-                }
-            });
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OneItemActivity.class);
+                intent.putExtra("item", list.get(position));
+                context.startActivity(intent);
+            }
+        });
         //}
     }
 
@@ -116,30 +116,30 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     }
 
 
-public static void save(int position, ImageView itemImg,List<Garment> list) {
-    if (context == TopFragment.topContext) {
-        //SELECT
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
-        DatabaseReference pushRef = reference.push();
-        String pushId = pushRef.getKey();
-        list.get(position).setPushId(pushId);
+    public static void save(int position, ImageView itemImg, List<Garment> list) {
+        if (context == TopFragment.topContext) {
+            //SELECT
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.SAVED_CLOTHES).child(Constants.uid);
+            DatabaseReference pushRef = reference.push();
+            String pushId = pushRef.getKey();
+            list.get(position).setPushId(pushId);
 
-        pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
+            pushRef.setValue(list.get(position)).addOnCompleteListener(new OnCompleteListener() {
 
-            @Override
-            public void onComplete(@NonNull Task task) {
+                @Override
+                public void onComplete(@NonNull Task task) {
 
-                if (task.isSuccessful()) {
-                    itemImg.setVisibility(View.VISIBLE);
-                    Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
-                    ShareData.OutFit.dress = list.get(position).getId();
-                } else {
-                    itemImg.setVisibility(View.INVISIBLE);
-                    Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+                    if (task.isSuccessful()) {
+                        itemImg.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
+                        ShareData.OutFit.dress = list.get(position).getId();
+                    } else {
+                        itemImg.setVisibility(View.INVISIBLE);
+                        Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
-}
+    }
 }

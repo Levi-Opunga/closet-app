@@ -117,7 +117,8 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
                 Constants.GARMENTS = Constants.RESTORE_SAVED;
             } else {
                 Constants.GARMENTS = Constants.RESTORE;
-            }            ShoeFragment.gender = Constants.GENDER;
+            }
+            ShoeFragment.gender = Constants.GENDER;
             AllItemsFragment.externalRefreshLayout();
             if (BottomFragment.recyclerViewBottom != null) {
                 BottomFragment.externalRefreshLayout();

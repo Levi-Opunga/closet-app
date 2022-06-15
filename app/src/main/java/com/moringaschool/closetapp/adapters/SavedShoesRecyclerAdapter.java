@@ -35,21 +35,21 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedShoesRecyclerAdapter extends RecyclerView.Adapter<SavedShoesRecyclerAdapter.myHolders>  {
-     static ArrayList<Shoe> list;
+public class SavedShoesRecyclerAdapter extends RecyclerView.Adapter<SavedShoesRecyclerAdapter.myHolders> {
+    static ArrayList<Shoe> list;
     static Context context;
-    
+
     public SavedShoesRecyclerAdapter(ArrayList<Shoe> list, Context context) {
         this.list = list;
         this.context = context;
-        
+
     }
 
     @NonNull
     @Override
     public SavedShoesRecyclerAdapter.myHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.display_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.display_item, parent, false);
         return new SavedShoesRecyclerAdapter.myHolders(view);
     }
 
@@ -57,11 +57,11 @@ public class SavedShoesRecyclerAdapter extends RecyclerView.Adapter<SavedShoesRe
     @Override
     public void onBindViewHolder(@NonNull SavedShoesRecyclerAdapter.myHolders holder, int position) {
         Picasso.get().load(list.get(position).getUrl()).into(holder.itemImg);
-        holder.text.setText(String.valueOf(position+1));
+        holder.text.setText(String.valueOf(position + 1));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected);
+                SavedShoesRecyclerAdapter.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
             }
         });
     }
@@ -80,19 +80,20 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
         CardView card;
         @BindView(R.id.selected)
         ImageView selected;
+
         public myHolders(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
 
         }
     }
 
-  static   void showPopupMenu(View view, int position, ImageView itemImg) {
+    static void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.popup_menushoe, popup.getMenu());
 
-            popup.show();
+        popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -115,12 +116,12 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
                     Intent intent = new Intent(context, OneShoeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                    intent.putExtra("shoes",list.get(position).getUrl());
+                    intent.putExtra("shoes", list.get(position).getUrl());
                     context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "saving", Toast.LENGTH_SHORT).show();
 
-                    save(position,itemImg);
+                    save(position, itemImg);
                 }
 
 
@@ -129,8 +130,9 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
         });
 
     }
-    public static void save(int position,ImageView itemImg) {
-        if (context!=null) {
+
+    public static void save(int position, ImageView itemImg) {
+        if (context != null) {
             //SELECT
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Shoes").child(Constants.uid);
             DatabaseReference pushRef = reference.push();
@@ -145,7 +147,7 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
                     if (task.isSuccessful()) {
                         itemImg.setVisibility(View.VISIBLE);
                         Toast.makeText(context, "Succsessfully Saved", Toast.LENGTH_SHORT).show();
-                      //  ShareData.OutFit.dress = list.get(position).getId();
+                        //  ShareData.OutFit.dress = list.get(position).getId();
                     } else {
                         itemImg.setVisibility(View.INVISIBLE);
                         Toast.makeText(context, "Unable Save Try Again", Toast.LENGTH_LONG).show();

@@ -38,7 +38,7 @@ public class BottomFragment extends Fragment {
     private static Context context;
     ReveryApi reveryApi;
     Response responses;
-//    @BindView(R.id.recyclerviewB)recyclerviewB
+    //    @BindView(R.id.recyclerviewB)recyclerviewB
     public static
     RecyclerView recyclerViewBottom;
     long time;
@@ -48,7 +48,7 @@ public class BottomFragment extends Fragment {
     ProgressBar progressBar;
     static String category = "bottoms";
     static List<Garment> garments;
-    static GridLayoutManager gridLayoutManager ;
+    static GridLayoutManager gridLayoutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -64,12 +64,12 @@ public class BottomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        recyclerViewBottom = (RecyclerView)view.findViewById(R.id.recyclerviewB);
+        recyclerViewBottom = (RecyclerView) view.findViewById(R.id.recyclerviewB);
         display();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-              //  garments =(ArrayList<Garment>) Constants.GARMENTS;
+                //  garments =(ArrayList<Garment>) Constants.GARMENTS;
                 externalRefreshLayout();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -78,29 +78,28 @@ public class BottomFragment extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void display() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = new GridLayoutManager(getContext(), 3);
 
-  @RequiresApi(api = Build.VERSION_CODES.N)
-  void   display(){
-      if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-          gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager = new GridLayoutManager(getContext(), 2);
 
-      } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-          gridLayoutManager = new GridLayoutManager(getContext(), 2);
-
-      }
-      recyclerViewBottom.setLayoutManager(gridLayoutManager);
-      context = getContext();
-      garments  = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-    adapter = new BottomsRecyclerAdapter(garments, getContext());
-      recyclerViewBottom.setAdapter(adapter);
+        }
+        recyclerViewBottom.setLayoutManager(gridLayoutManager);
+        context = getContext();
+        garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+        adapter = new BottomsRecyclerAdapter(garments, getContext());
+        recyclerViewBottom.setAdapter(adapter);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void externalRefreshLayout(){
+    public static void externalRefreshLayout() {
         recyclerViewBottom.setLayoutManager(gridLayoutManager);
         garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-        Log.d("LOG","CALLLED IT");
+        Log.d("LOG", "CALLLED IT");
         adapter = new BottomsRecyclerAdapter(garments, context);
         recyclerViewBottom.setAdapter(adapter);
         adapter.notifyDataSetChanged();

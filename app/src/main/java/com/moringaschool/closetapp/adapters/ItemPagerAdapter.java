@@ -35,6 +35,7 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
 
     }
+
     public ItemPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, int size) {
         super(fragmentManager, lifecycle);
 
@@ -44,7 +45,7 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-        Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new ShoeFragment(),new DressFragment(),new SavedOptionsFragment());
+        Collections.addAll(list, new AllItemsFragment(), new TopFragment(), new BottomFragment(), new ShoeFragment(), new DressFragment(), new SavedOptionsFragment());
         return list.get(position);
     }
 

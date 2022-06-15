@@ -66,13 +66,13 @@ public class BottomsRecyclerAdapter extends RecyclerView.Adapter<BottomsRecycler
         holder.text.setText(list.get(position).getBrand());
         // holder.card.setOnClickListener(ItemRecyclerAdapter.showPopupMenu(view,list.get(position).getImageUrls().getProductImage()));
 
-            holder.card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    BottomsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected);
 
-                }
-            });
+            }
+        });
 
     }
 
@@ -118,7 +118,7 @@ public class BottomsRecyclerAdapter extends RecyclerView.Adapter<BottomsRecycler
         } else {
             inflater.inflate(R.menu.popup_menu, popup.getMenu());
         }
-            popup.show();
+        popup.show();
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -142,7 +142,7 @@ public class BottomsRecyclerAdapter extends RecyclerView.Adapter<BottomsRecycler
                     intent.putExtra("item", list.get(position));
                     context.startActivity(intent);
                 } else {
-                    ItemRecyclerAdapter.save(position,itemImg,list);
+                    ItemRecyclerAdapter.save(position, itemImg, list);
                 }
 
 

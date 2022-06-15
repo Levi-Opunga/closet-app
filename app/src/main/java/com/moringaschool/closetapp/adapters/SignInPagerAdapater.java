@@ -14,7 +14,7 @@ import com.moringaschool.closetapp.fragments.SignUpFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SignInPagerAdapater  extends FragmentStateAdapter {
+public class SignInPagerAdapater extends FragmentStateAdapter {
 
 
     public SignInPagerAdapater(@NonNull FragmentActivity fragmentActivity) {
@@ -32,7 +32,7 @@ public class SignInPagerAdapater  extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Fragment[] array = {new SignInFragment(),new SignUpFragment()};
+        Fragment[] array = {new SignInFragment(), new SignUpFragment()};
         return array[position];
     }
 

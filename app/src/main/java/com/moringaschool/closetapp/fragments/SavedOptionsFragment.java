@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SavedOptionsFragment extends Fragment {
-@BindView(R.id.clothes)
+    @BindView(R.id.clothes)
     Button clothes;
     @BindView(R.id.shoes)
     Button shoes;
@@ -37,8 +37,8 @@ public class SavedOptionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         clothes.setOnClickListener(v -> {
-           Intent intent = new Intent(getContext(), SavedClothesActivity.class);
-           startActivity(intent);
+            Intent intent = new Intent(getContext(), SavedClothesActivity.class);
+            startActivity(intent);
         });
         shoes.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SavedShoesActivity.class);

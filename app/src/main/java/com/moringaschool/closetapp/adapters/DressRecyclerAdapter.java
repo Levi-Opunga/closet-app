@@ -119,9 +119,9 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
     void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        if(Constants.saved){
+        if (Constants.saved) {
             inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
-        }else {
+        } else {
             inflater.inflate(R.menu.popup_menu, popup.getMenu());
         }
         popup.show();
@@ -150,7 +150,7 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
                     intent.putExtra("item", list.get(position));
                     context.startActivity(intent);
                 } else {
-                    ItemRecyclerAdapter.save(position,itemImg,list);
+                    ItemRecyclerAdapter.save(position, itemImg, list);
                 }
 
 

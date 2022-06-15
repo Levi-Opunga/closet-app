@@ -74,7 +74,6 @@ public class TopFragment extends Fragment {
     }
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     void display() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -90,14 +89,14 @@ public class TopFragment extends Fragment {
         recyclerViewTop.setAdapter(new TopsRecyclerAdapter(garments, topContext));
     }
 
-   @RequiresApi(api = Build.VERSION_CODES.N)
-   public static void externalRefreshLayout(){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void externalRefreshLayout() {
 
-       recyclerViewTop.setLayoutManager(gridLayoutManager);
-       ArrayList<Garment> garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-       recyclerViewTop.setAdapter(new TopsRecyclerAdapter(garments, topContext));
+        recyclerViewTop.setLayoutManager(gridLayoutManager);
+        ArrayList<Garment> garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+        recyclerViewTop.setAdapter(new TopsRecyclerAdapter(garments, topContext));
 
-   }
+    }
 
 
 }

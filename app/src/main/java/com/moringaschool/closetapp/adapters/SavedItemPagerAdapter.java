@@ -37,7 +37,7 @@ public class SavedItemPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
 
-        Collections.addAll(list,new AllItemsFragment(),new TopFragment(),new BottomFragment(),new DressFragment());
+        Collections.addAll(list, new AllItemsFragment(), new TopFragment(), new BottomFragment(), new DressFragment());
         return list.get(position);
     }
 
