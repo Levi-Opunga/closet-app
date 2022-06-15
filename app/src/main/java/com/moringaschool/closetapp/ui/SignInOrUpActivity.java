@@ -7,13 +7,19 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.adapters.SignInPagerAdapater;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,18 +38,22 @@ public class SignInOrUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_or_up);
         ButterKnife.bind(this);
+
+
         auth = FirebaseAuth.getInstance();
 
         AuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     Intent intent = new Intent(SignInOrUpActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
+
             }
         };
 
@@ -89,5 +99,27 @@ public class SignInOrUpActivity extends AppCompatActivity {
         if (AuthStateListener != null) {
             auth.removeAuthStateListener(AuthStateListener);
         }
+    }
+
+    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+
+        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(addProfileName)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
+                        }else{
+                            Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
+
+                        }
+                    }
+
+                });
     }
 }

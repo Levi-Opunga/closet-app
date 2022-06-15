@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,19 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider;
 import com.moringaschool.closetapp.AppUser;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ui.MainActivity;
+
+import java.util.Objects;
+import java.util.concurrent.Executor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,13 +80,16 @@ text.setOnClickListener(v->{
         String phone = this.phone.getText().toString().trim();
 
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener() {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task task) {
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = user.getUid();
-
+                    Log.d("name",name);
+                    createFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()),name);
+                    Log.d("created user", "wertyuioptyuio");
                     DatabaseReference restaurantRef = FirebaseDatabase
                             .getInstance()
                             .getReference("User").child(uid);
@@ -92,9 +101,8 @@ text.setOnClickListener(v->{
 
                         @Override
                         public void onComplete(@NonNull Task task) {
-                            Toast.makeText(getContext(), "Successfully created Account", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getContext(), MainActivity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(getContext(), MainActivity.class);
+//                            startActivity(intent);
                         }
                     });
 
@@ -102,7 +110,30 @@ text.setOnClickListener(v->{
                     Toast.makeText(getContext(), "Please Try Again", Toast.LENGTH_LONG).show();
 
                 }
+
+
             }
         });
+    }
+    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+
+        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(addProfileName)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
+                        }else{
+                            Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
+
+                        }
+                    }
+
+                });
     }
 }
