@@ -63,7 +63,6 @@
                     android:drawableRight="@drawable/ic_baseline_person"
                     android:ems="10"
                     android:inputType="textEmailAddress"
-                    android:textAppearance="@style/MyCustomAppTitle"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

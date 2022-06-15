@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Mail"
-        android:title="Save Item" />
+        android:title="Duplicate Item" />
     <item
         android:id="@+id/gender"
         android:title="Share Link"

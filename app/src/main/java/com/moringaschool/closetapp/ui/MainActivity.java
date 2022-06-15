@@ -3,6 +3,7 @@ package com.moringaschool.closetapp.ui;
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 import static com.moringaschool.closetapp.fragments.AllItemsFragment.allContext;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +16,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,9 +36,12 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
@@ -51,6 +58,7 @@ import com.moringaschool.closetapp.network.ReveryClient;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -60,8 +68,8 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
     public static Context mainContext;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
+//    @BindView(R.id.tabLayout)
+  public static   TabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager2 viewPager2;
     @Nullable
@@ -70,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
     List<Garment> garments;
     List<Garment> restore;
     private long pressedTime;
+    private   FirebaseAuth mAuth ;
 
 
     long time;
     private Response responses;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -81,9 +91,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.materialToolbar);
-//        setSupportActionBar(myToolbar);
-        Log.d("onCreate", "creaaaaaaaaate");
+        tabLayout = this.findViewById(R.id.tabLayout);
+      Log.d("onCreate", "creaaaaaaaaate");
 
         String[] tabs = {"All Items", "Tops", "Bottoms", "Shoes", "Dresses","Saved"};
         int[] icons = new int[]{R.drawable.img_2, R.drawable.img, R.drawable.img_1, R.drawable.img_3};
@@ -99,13 +108,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
+                    tab.setText("saved");
+                    viewPager2.setCurrentItem(tabLayout.getSelectedTabPosition()+1);
+
+                    return;
+                }
                 viewPager2.setCurrentItem(tabLayout.getSelectedTabPosition());
                 tab.setText(tabs[tab.getPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
+    tab.setText("saved");
+    return;
+}
                 if (tab.getPosition() != 0 && tab.getPosition()<5)
                     tab.setText("");
             }
@@ -123,25 +141,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         refresh();
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                //createFirebaseUserProfile(user,"levi");
+                if (user != null) {
+                    getSupportActionBar().setTitle("Welcome to " +user.getDisplayName()+ "'s closet" );
+                } else {
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+                }
+            }
+        };
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        refresh();
+        mAuth.addAuthStateListener(mAuthListener);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mAuth.addAuthStateListener(mAuthListener);
         refresh();
     }
 
@@ -149,22 +175,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
+       // applyFontToMenu(menu,getApplicationContext());
         ButterKnife.bind(this);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "font/designer.ttf");
 
-//        menu.findItem(R.id.action_search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
-//                viewPager2.setAdapter(itemPagerAdapter);
-//                return false;
-//            }
-//        });
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Enter Filter Phrase");
@@ -173,21 +187,6 @@ public class MainActivity extends AppCompatActivity {
         Drawable res = getResources().getDrawable(R.drawable.ic_baseline_more_vert_24);
         image.setImageDrawable(res);
         image.setOnClickListener(this::showPopupMenu);
-//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
-//                viewPager2.setAdapter(itemPagerAdapter);
-//                // Write your code here
-//                return true;
-//            }
-//        });
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -349,43 +348,51 @@ fragment.show(getSupportFragmentManager(),"gender");
     }
 
 
-//
-//    @Override
-////    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//
-//        // Checks whether a hardware keyboard is available
-//        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-//            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
-//        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-//            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    boolean isOpened = false;
-//
-////    public void setListenerToRootView() {
-////        final View activityRootView = getWindow().getDecorView().findViewById(android.R.id.content);
-////        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-////            @Override
-////            public void onGlobalLayout() {
-//
-//                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
-//                if (heightDiff > 1000) { // 99% of the time the height diff will be due to a keyboard.
-//                 //   Toast.makeText(getApplicationContext(), "Gotcha!!! softKeyboardup", Toast.LENGTH_LONG).show();
-//
-//                    if (isOpened == false) {
-//                        //Do two things, make the view top visible and the editText smaller
-//                    }
-//                    isOpened = true;
-//                } else if (isOpened == true) {
-//                  //  Toast.makeText(getApplicationContext(), "softkeyborad Down!!!", Toast.LENGTH_LONG).show();
-//                    isOpened = false;
-//                }
-//            }
-//        });
-//    }
 
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+
+public static void applyFontToMenu(Menu m, Context mContext){
+    for(int i=0;i<m.size();i++) {
+        applyFontToMenuItem(m.getItem(i),mContext);
+    }
+}
+    public static void applyFontToMenuItem(MenuItem mi, Context mContext) {
+        if(mi.hasSubMenu())
+            for(int i=0;i<mi.getSubMenu().size();i++) {
+                applyFontToMenuItem(mi.getSubMenu().getItem(i),mContext);
+            }
+        Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/designer.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font, mContext), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
+    }
+    private void createFirebaseUserProfile(final FirebaseUser user,String name) {
+
+        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(addProfileName)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("creating user", Objects.requireNonNull(user.getDisplayName()));
+                        }else{
+                            Log.d("ffffaaaaaiiilll", Objects.requireNonNull(user.getDisplayName()));
+
+                        }
+                    }
+
+                });
+    }
 }
