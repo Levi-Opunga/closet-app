@@ -59,8 +59,11 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             if (tabLayout.getTabCount() < 6) {
                 tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.img_3), 4);
             }
-          //  tabLayout.setTabMode(tabLayout.MODE_AUTO);
-            Constants.GARMENTS = Constants.RESTORE;
+            if (Constants.saved) {
+                Constants.GARMENTS = Constants.RESTORE_SAVED;
+            } else {
+                Constants.GARMENTS = Constants.RESTORE;
+            }
             ShoeFragment.gender = Constants.GENDER;
             Constants.GARMENTS = Constants.GARMENTS.stream()
                     .filter(g -> g.getGender().equals(Constants.GENDER))
@@ -75,7 +78,7 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             if (ShoeFragment.recyclerView != null) {
                 ShoeFragment.method(Constants.GENDER);
             }
-            if(DressFragment.recyclerView!= null){
+            if (DressFragment.recyclerView != null) {
                 DressFragment.externalRefreshLayout();
             }
 
@@ -85,8 +88,12 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             if (tabLayout.getTabCount() == 6) {
                 tabLayout.removeTabAt(4);
             }
-           // tabLayout.setTabMode(tabLayout.MODE_AUTO);
-            Constants.GARMENTS = Constants.RESTORE;
+            // tabLayout.setTabMode(tabLayout.MODE_AUTO);
+            if (Constants.saved) {
+                Constants.GARMENTS = Constants.RESTORE_SAVED;
+            } else {
+                Constants.GARMENTS = Constants.RESTORE;
+            }
             Constants.GARMENTS = Constants.GARMENTS.stream()
                     .filter(g -> g.getGender().equals(Constants.GENDER))
                     .collect(Collectors.toList());
@@ -106,8 +113,11 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             dismiss();
         } else {
             Constants.GENDER = "none";
-            Constants.GARMENTS = Constants.RESTORE;
-            ShoeFragment.gender = Constants.GENDER;
+            if (Constants.saved) {
+                Constants.GARMENTS = Constants.RESTORE_SAVED;
+            } else {
+                Constants.GARMENTS = Constants.RESTORE;
+            }            ShoeFragment.gender = Constants.GENDER;
             AllItemsFragment.externalRefreshLayout();
             if (BottomFragment.recyclerViewBottom != null) {
                 BottomFragment.externalRefreshLayout();
@@ -118,7 +128,7 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             if (ShoeFragment.recyclerView != null) {
                 ShoeFragment.method(Constants.GENDER);
             }
-            if(DressFragment.recyclerView!= null){
+            if (DressFragment.recyclerView != null) {
                 DressFragment.externalRefreshLayout();
             }
 //            ShoeFragment shoe = new ShoeFragment();

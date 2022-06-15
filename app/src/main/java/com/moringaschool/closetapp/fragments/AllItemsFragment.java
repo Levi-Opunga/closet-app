@@ -50,9 +50,9 @@ public class AllItemsFragment extends Fragment {
     public static ItemRecyclerAdapter adapter;
     public static List<Garment> garments;
 
-//    @BindView(R.id.swiperefresh)
+    //    @BindView(R.id.swiperefresh)
 //    public static
-   public static SwipeRefreshLayout swipeRefreshLayout;
+    public static SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -70,8 +70,8 @@ public class AllItemsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        AllItemsRecyclerView =(RecyclerView)view.findViewById(R.id.all_itemRA);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
+        AllItemsRecyclerView = (RecyclerView) view.findViewById(R.id.all_itemRA);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
         display();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,9 +86,9 @@ public class AllItemsFragment extends Fragment {
     }
 
 
-
     void display() {
-     gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getContext(), 3);
 
@@ -99,12 +99,12 @@ public class AllItemsFragment extends Fragment {
         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
         allContext = getContext();
         garments = Constants.GARMENTS;
-       adapter = new ItemRecyclerAdapter(Constants.GARMENTS, allContext);
+        adapter = new ItemRecyclerAdapter(garments, allContext);
         AllItemsRecyclerView.setAdapter(adapter);
 
     }
 
-    public static void externalRefreshLayout(){
+    public static void externalRefreshLayout() {
         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
         garments = Constants.GARMENTS;
         adapter = new ItemRecyclerAdapter(garments, allContext);

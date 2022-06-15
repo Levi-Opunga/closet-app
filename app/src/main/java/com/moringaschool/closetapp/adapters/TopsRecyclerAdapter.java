@@ -72,13 +72,13 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
         holder.text.setText(list.get(position).getBrand());
         // holder.card.setOnClickListener(ItemRecyclerAdapter.showPopupMenu(view,list.get(position).getImageUrls().getProductImage()));
 
-            holder.card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TopsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected,list);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TopsRecyclerAdapter.this.showPopupMenu(v, holder.getAdapterPosition(), holder.selected, list);
 
-                }
-            });
+            }
+        });
 
     }
 
@@ -116,14 +116,15 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
     }
 
 
-    void showPopupMenu(View view, int position, ImageView itemImg,List<Garment> list) {
+    void showPopupMenu(View view, int position, ImageView itemImg, List<Garment> list) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        if(Constants.saved){
+        if (Constants.saved) {
             inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
-        }else{
-            inflater.inflate(R.menu.popup_menu, popup.getMenu());}
-            popup.show();
+        } else {
+            inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        }
+        popup.show();
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -150,8 +151,8 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
 //                    itemImg.setVisibility(View.VISIBLE);
 //                        ShareData.OutFit.top = list.get(position).getId();
 //                        Toast.makeText(context,"top"+ ShareData.OutFit.top, Toast.LENGTH_SHORT).show();
-                   ItemRecyclerAdapter.save(position,itemImg,list);
-                 //  save(position,itemImg);
+                    ItemRecyclerAdapter.save(position, itemImg, list);
+                    //  save(position,itemImg);
 
                 }
 
@@ -161,8 +162,8 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
         });
 
 
-
     }
+
     public void save(int position, ImageView itemImg) {
         if (context == TopFragment.topContext) {
             //SELECT

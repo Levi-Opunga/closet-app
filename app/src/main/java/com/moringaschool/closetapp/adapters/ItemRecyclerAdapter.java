@@ -70,23 +70,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     public void onBindViewHolder(@NonNull myHolders holder, int position) {
         Picasso.get().load(list.get(position).getImageUrls().getProductImage()).into(holder.itemImg);
         holder.text.setText(list.get(position).getBrand());
-        // holder.card.setOnClickListener(ItemRecyclerAdapter.showPopupMenu(view,list.get(position).getImageUrls().getProductImage()));
-//        if (context == AllItemsFragment.allContext) {
-//
-//                holder.card.setOnClickListener(
-//                        v-> {
-//                            Intent intent = new Intent(context, OneItemActivity.class);
-//                            intent.putExtra("item", list.get(position));
-//                            try {
-//                                context.getApplicationContext().startActivity(intent);
-//                            }catch (AndroidRuntimeException e){};
-//                           Log.e("caught it", "yaaaaaaaaay");
-//                           Context context;
-//                           context = TopFragment.topContext;
-//                           context.startActivity(intent);
-//                        });
-//
-//        } else {
+
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,49 +116,6 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     }
 
 
-//    void showPopupMenu(View view, int position, ImageView itemImg) {
-//        PopupMenu popup = new PopupMenu(context, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.popup_menu, popup.getMenu());
-//
-//            popup.show();
-//
-////        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-////            @Override
-////            public boolean onMenuItemClick(MenuItem item) {
-////                Menu menu = popup.getMenu();
-////                for (int i = 0; i < menu.size(); i++) {
-////                    menu.getItem(i).setChecked(false);
-////                }
-////                item.setChecked(true);
-////                if (menu.getItem(1).isChecked()) {
-////                    Intent sendIntent = new Intent();
-////                    sendIntent.setAction(Intent.ACTION_SEND);
-////                    sendIntent.putExtra(Intent.EXTRA_TEXT, list.get(position).getImageUrls().getProductImage());
-////                    sendIntent.setType("text/plain");
-////
-////                    Intent shareIntent = Intent.createChooser(sendIntent, null);
-////                    context.startActivity(shareIntent);
-////                    Toast.makeText(context, "shared", Toast.LENGTH_SHORT).show();
-////                } else if (menu.getItem(2).isChecked()) {
-////                    Intent intent = new Intent(context, OneItemActivity.class);
-////                    intent.putExtra("item", list.get(position));
-////                    context.startActivity(intent);
-////                } else {
-////                    itemImg.setVisibility(View.VISIBLE);
-////
-////
-////                        ShareData.OutFit.top = list.get(position).getId();
-////                        Toast.makeText(context, ShareData.OutFit.top, Toast.LENGTH_SHORT).show();
-////
-////                }
-////
-////
-////                return false;
-////            }
-//    //    });
-//
-//    }
 public static void save(int position, ImageView itemImg,List<Garment> list) {
     if (context == TopFragment.topContext) {
         //SELECT

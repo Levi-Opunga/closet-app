@@ -10,5 +10,5 @@
 
     <item
         android:id="@+id/MoreInfo"
-        android:title="More Information" />
+        android:title="Full view" />
 </menu>

@@ -94,7 +94,11 @@ ShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.selected
   static   void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_menushoe, popup.getMenu());
+      if(Constants.saved){
+          inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
+      }else {
+          inflater.inflate(R.menu.popup_menu, popup.getMenu());
+      }
 
             popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

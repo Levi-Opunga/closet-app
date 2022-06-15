@@ -23,6 +23,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.ShareData;
 import com.moringaschool.closetapp.fragments.AllItemsFragment;
@@ -112,8 +113,11 @@ public class BottomsRecyclerAdapter extends RecyclerView.Adapter<BottomsRecycler
     void showPopupMenu(View view, int position, ImageView itemImg) {
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_menu, popup.getMenu());
-
+        if (Constants.saved) {
+            inflater.inflate(R.menu.popup_menusaved, popup.getMenu());
+        } else {
+            inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        }
             popup.show();
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

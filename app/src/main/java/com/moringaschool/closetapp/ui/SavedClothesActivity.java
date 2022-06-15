@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
@@ -64,7 +65,8 @@ public class SavedClothesActivity extends AppCompatActivity {
     @Nullable
     @BindView(R.id.mainprogress)
     ProgressBar progressBar;
-    List<Garment> garments= new ArrayList<Garment>();
+
+    List<Garment> garments = new ArrayList<Garment>();
 
     private long pressedTime;
     DatabaseReference reference;
@@ -78,7 +80,7 @@ public class SavedClothesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_clothes);
         ButterKnife.bind(this);
-        Constants.saved=true;
+        Constants.saved = true;
         String[] tabs = {"All Items", "Tops", "Bottoms", "Dresses"};
         int[] icons = new int[]{R.drawable.img_2, R.drawable.img, R.drawable.img_3};
         Arrays.stream(tabs).forEach(tab -> tabLayout.addTab(tabLayout.newTab().setText(tab)));
@@ -144,7 +146,7 @@ public class SavedClothesActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
         ButterKnife.bind(this);
-
+        Constants.saved = true;
 
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
@@ -204,20 +206,8 @@ public class SavedClothesActivity extends AppCompatActivity {
     }
 
 
-//
-//    void showPopupMenu(View view) {
-//        PopupMenu popup = new PopupMenu(this, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.popup_menu, popup.getMenu());
-//        popup.show();
-//    }
-
-
     void refresh() {
         progressBar.setVisibility(View.VISIBLE);
-
-
-
 
 
         for (int i = 0; i <= 0; i++) {
@@ -226,12 +216,11 @@ public class SavedClothesActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     garments.clear();
-for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-    Garment garment =dataSnapshot.getValue(Garment.class);
-    garments.add(garment);
-}
-Constants.RESTORE = garments;
-
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Garment garment = dataSnapshot.getValue(Garment.class);
+                        garments.add(garment);
+                    }
+                    Constants.RESTORE_SAVED = garments;
                     Constants.GARMENTS = garments;
                     mainContext = getApplicationContext();
                     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -246,23 +235,9 @@ Constants.RESTORE = garments;
                 }
             });
 
-       }
+        }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (pressedTime + 2000 > System.currentTimeMillis()) {
-//            super.onBackPressed();
-//            finish();
-//        } else {
-//            Constants.GARMENTS = Constants.RESTORE;
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
-//            viewPager2.setAdapter(itemPagerAdapter);
-//            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_LONG).show();
-//        }
-//        pressedTime = System.currentTimeMillis();
-//    }
 
     void showPopupMenu(View view) {
         PopupMenu popup = new PopupMenu(getApplicationContext(), view
@@ -281,11 +256,11 @@ Constants.RESTORE = garments;
                 item.setChecked(true);
                 if (menu.getItem(1).isChecked()) {
                     GenderFilterFragment fragment = new GenderFilterFragment();
-                    fragment.show(getSupportFragmentManager(),"gender");
+                    fragment.show(getSupportFragmentManager(), "gender");
 
                 } else if (menu.getItem(2).isChecked()) {
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(SavedClothesActivity.this,SignInOrUpActivity.class);
+                    Intent intent = new Intent(SavedClothesActivity.this, SignInOrUpActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -307,7 +282,6 @@ Constants.RESTORE = garments;
         });
 
     }
-
 
 
 }

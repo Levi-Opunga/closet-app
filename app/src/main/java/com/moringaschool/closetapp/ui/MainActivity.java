@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Constants.saved =false;
         tabLayout = this.findViewById(R.id.tabLayout);
       Log.d("onCreate", "creaaaaaaaaate");
 
@@ -161,14 +162,18 @@ if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-
+        Constants.saved =false;
+       // refresh();
+mildRefresh();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mAuth.addAuthStateListener(mAuthListener);
-        refresh();
+        Constants.saved =false;
+        //refresh();
+        mildRefresh();
     }
 
     @Override
@@ -287,6 +292,16 @@ if(Constants.GENDER.equals("male")&&tab.getPosition()==4){
             });
         }
     }
+
+    void mildRefresh() {
+        Constants.GARMENTS = Constants.RESTORE;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
+        viewPager2.setAdapter(itemPagerAdapter);
+    }
+
+
+
 
     @Override
     public void onBackPressed() {
