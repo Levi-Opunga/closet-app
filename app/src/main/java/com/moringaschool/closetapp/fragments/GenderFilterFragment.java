@@ -120,6 +120,10 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
             }
             ShoeFragment.gender = Constants.GENDER;
             AllItemsFragment.externalRefreshLayout();
+
+            if (tabLayout.getTabCount() < 6) {
+                tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.img_3), 4);
+            }
             if (BottomFragment.recyclerViewBottom != null) {
                 BottomFragment.externalRefreshLayout();
             }
@@ -136,6 +140,7 @@ public class GenderFilterFragment extends DialogFragment implements View.OnClick
 //            shoe.refresh();
             dismiss();
         }
+
 
     }
 }
