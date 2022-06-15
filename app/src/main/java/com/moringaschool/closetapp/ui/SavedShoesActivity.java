@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -36,11 +37,20 @@ public class SavedShoesActivity extends AppCompatActivity {
     ArrayList<Shoe> savedShoes = new ArrayList<>();
     private DatabaseReference reference;
     SavedShoesRecyclerAdapter adapter;
+    @BindView(R.id.swiperefresh3)
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_shoes);
         ButterKnife.bind(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+loadShoes();
+swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         loadShoes();
 
         RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
@@ -83,4 +93,8 @@ public class SavedShoesActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
 }
