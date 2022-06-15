@@ -40,10 +40,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdapter.myHolders>  {
-    static ArrayList<String> list;
+    static List<String> list;
     static Context context;
-    static ArrayList<String> models;
-    public ShoesRecyclerAdapter(ArrayList<String> list, Context context,ArrayList<String> models) {
+    static List<String> models;
+    public ShoesRecyclerAdapter(List<String> list, Context context,List<String> models) {
         this.list = list;
         this.context = context;
         this.models = models;

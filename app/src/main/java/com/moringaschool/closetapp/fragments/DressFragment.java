@@ -2,6 +2,7 @@ package com.moringaschool.closetapp.fragments;
 
 import static com.moringaschool.closetapp.Constants.SECRET_KEY;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
+import com.moringaschool.closetapp.adapters.BottomsRecyclerAdapter;
 import com.moringaschool.closetapp.adapters.DressRecyclerAdapter;
 import com.moringaschool.closetapp.adapters.ItemRecyclerAdapter;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
@@ -40,16 +42,20 @@ import retrofit2.Callback;
 
 
 public class DressFragment extends Fragment {
+    private static DressRecyclerAdapter adapter;
+    private static RecyclerView.LayoutManager gridLayoutManager;
+    private static Context context;
     ReveryApi reveryApi;
     Response responses;
-    @BindView(R.id.recyclerviewD)
-    RecyclerView recyclerView;
+   // @BindView(R.id.recyclerviewD)
+  public static RecyclerView recyclerView;
     long time;
     @BindView(R.id.swiperefresh4)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    String category = "allbody";
+    static String category = "allbody";
+    private static ArrayList<Garment> garments;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -65,9 +71,10 @@ public class DressFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        recyclerView = view.findViewById(R.id.recyclerviewD);
         display();
+        context = getContext();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onRefresh() {
                 display();
@@ -122,8 +129,18 @@ public class DressFragment extends Fragment {
 
         }
         recyclerView.setLayoutManager(gridLayoutManager);
-        ArrayList<Garment> garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-        recyclerView.setAdapter(new DressRecyclerAdapter(garments, getContext()));
+    garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+    adapter = new DressRecyclerAdapter(garments, getContext());
+        recyclerView.setAdapter(adapter);
 
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void externalRefreshLayout(){
+        gridLayoutManager = new GridLayoutManager(context, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        garments = (ArrayList<Garment>) Constants.GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+        adapter = new DressRecyclerAdapter(garments, context);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

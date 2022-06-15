@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import com.moringaschool.closetapp.Constants;
 import com.moringaschool.closetapp.Encryption;
 import com.moringaschool.closetapp.R;
+import com.moringaschool.closetapp.adapters.BottomsRecyclerAdapter;
 import com.moringaschool.closetapp.adapters.ItemRecyclerAdapter;
 import com.moringaschool.closetapp.interfaces.ReveryApi;
 import com.moringaschool.closetapp.models.Garment;
@@ -40,24 +41,24 @@ import retrofit2.Callback;
 
 
 public class AllItemsFragment extends Fragment {
-    ReveryApi reveryApi;
+    private static RecyclerView.LayoutManager gridLayoutManager;
+
     public static Context allContext;
     public static Response responses;
-    @BindView(R.id.all_itemRA)
-    RecyclerView AllItemsRecyclerView;
+    static RecyclerView AllItemsRecyclerView;
     long time;
-
+    public static ItemRecyclerAdapter adapter;
     public static List<Garment> garments;
 
-    @BindView(R.id.swiperefresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+//    @BindView(R.id.swiperefresh)
+//    public static
+   public static SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
 //        Intent intent = getActivity().getIntent();
 //        response = (Response) intent.getSerializableExtra("Response");
@@ -69,7 +70,10 @@ public class AllItemsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-            display();
+        AllItemsRecyclerView =(RecyclerView)view.findViewById(R.id.all_itemRA);
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
+
+        display();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,8 +86,9 @@ public class AllItemsFragment extends Fragment {
     }
 
 
+
     void display() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+     gridLayoutManager = new GridLayoutManager(getContext(), 2);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getContext(), 3);
 
@@ -94,8 +99,16 @@ public class AllItemsFragment extends Fragment {
         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
         allContext = getContext();
         garments = Constants.GARMENTS;
-        AllItemsRecyclerView.setAdapter(new ItemRecyclerAdapter(Constants.GARMENTS, allContext));
+       adapter = new ItemRecyclerAdapter(Constants.GARMENTS, allContext);
+        AllItemsRecyclerView.setAdapter(adapter);
 
+    }
+
+    public static void externalRefreshLayout(){
+        AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
+        garments = Constants.GARMENTS;
+        adapter = new ItemRecyclerAdapter(garments, allContext);
+        AllItemsRecyclerView.setAdapter(adapter);
     }
 
 }

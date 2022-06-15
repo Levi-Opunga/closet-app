@@ -35,6 +35,10 @@ public class ItemPagerAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
 
     }
+    public ItemPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, int size) {
+        super(fragmentManager, lifecycle);
+
+    }
 
     @NonNull
     @Override

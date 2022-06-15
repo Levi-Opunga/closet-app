@@ -1,5 +1,7 @@
 package com.moringaschool.closetapp.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -102,24 +104,23 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
                 if (menu.getItem(1).isChecked()) {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position));
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, list.get(position).getUrl());
                     sendIntent.setType("text/plain");
 
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(shareIntent);
                     Toast.makeText(context, "shared", Toast.LENGTH_SHORT).show();
                 } else if (menu.getItem(2).isChecked()) {
                     Intent intent = new Intent(context, OneShoeActivity.class);
-                    intent.putExtra("shoes", "https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/"+list.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    intent.putExtra("shoes",list.get(position).getUrl());
                     context.startActivity(intent);
                 } else {
-//                    itemImg.setVisibility(View.VISIBLE);
-//                    if (context == TopFragment.topContext) {
-//                        ShareData.OutFit.shoe = models.get(position);
-//                        Toast.makeText(context,"bottom" + ShareData.OutFit.shoe, Toast.LENGTH_SHORT).show();
-//                    }
-                    save(position,itemImg);
+                    Toast.makeText(context, "saving", Toast.LENGTH_SHORT).show();
 
+                    save(position,itemImg);
                 }
 
 
@@ -129,13 +130,13 @@ SavedShoesRecyclerAdapter.showPopupMenu(v,holder.getAdapterPosition(),holder.sel
 
     }
     public static void save(int position,ImageView itemImg) {
-        if (context == TopFragment.topContext) {
+        if (context!=null) {
             //SELECT
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Shoes").child(Constants.uid);
             DatabaseReference pushRef = reference.push();
             String pushId = pushRef.getKey();
             Shoe newShoe = list.get(position);
-newShoe.setPushId(pushId);
+            newShoe.setPushId(pushId);
             pushRef.setValue(newShoe).addOnCompleteListener(new OnCompleteListener() {
 
                 @Override
