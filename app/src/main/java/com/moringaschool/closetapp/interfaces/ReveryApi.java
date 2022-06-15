@@ -11,7 +11,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 public interface ReveryApi {
-    @GET("get_filtered_garments")
+    @GET("get_filtered_garments?page_size=200")
     Call<Response> getAllGarments(
             @Header("one_time_code") String one_time_code,
             @Header("timestamp") String timestamp
