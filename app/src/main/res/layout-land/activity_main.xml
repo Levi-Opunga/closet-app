@@ -2,54 +2,150 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:verticalScrollbarPosition="defaultPosition"
     tools:context=".ui.MainActivity">
 
-        <ProgressBar
-            android:id="@+id/mainprogress"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--        <FrameLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent">-->
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            style="@style/RoundedTabLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewPager"
-            app:tabBackground="@drawable/shape"
-            app:tabGravity="fill"
-            app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="@color/purple_200"
-            app:tabIndicatorGravity="stretch"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/MyCustomTabText"
-            app:tabTextColor="#191818">
+    <!--        </FrameLayout>-->
 
-        </com.google.android.material.tabs.TabLayout>
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/frameLayout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="center_vertical"-->
+    <!--        android:rotation="-90"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <com.google.android.material.tabs.TabLayout-->
+    <!--            android:id="@+id/tabLayout"-->
+    <!--            style="@style/RoundedTabLayoutStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="vertical"-->
+    <!--            app:tabBackground="@drawable/shape"-->
+    <!--            app:tabGravity="fill"-->
+    <!--            app:tabIndicatorAnimationMode="elastic"-->
+    <!--            app:tabIndicatorColor="@color/purple_200"-->
+    <!--            app:tabIndicatorGravity="stretch"-->
+    <!--            app:tabMaxWidth="1000dp"-->
+    <!--            app:tabMinWidth="100dp"-->
+    <!--            app:tabMode="auto"-->
+    <!--            app:tabSelectedTextColor="@color/white"-->
+    <!--            app:tabTextAppearance="@style/MyCustomTabText"-->
+    <!--            app:tabTextColor="#191818">-->
+
+    <!--            <com.google.android.material.tabs.TabItem-->
+    <!--                android:id="@+id/tabItem3"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="Tab2" />-->
+    <!--        </com.google.android.material.tabs.TabLayout>-->
+    <!--    </FrameLayout>-->
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="300dp"
+        android:layout_height="73dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="-144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--        <com.google.android.material.tabs.TabLayout-->
+        <!--            android:id="@+id/tabLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:background="@color/white"-->
+        <!--            app:tabBackground="@drawable/shape"-->
+        <!--            app:tabGravity="fill"-->
+        <!--            app:tabIndicatorAnimationMode="elastic"-->
+        <!--            app:tabIndicatorColor="@color/purple_200"-->
+        <!--            app:tabIndicatorFullWidth="false"-->
+        <!--            app:tabIndicatorGravity="stretch"-->
+        <!--            app:tabIndicatorHeight="4dp"-->
+        <!--            app:tabInlineLabel="true"-->
+        <!--            app:tabSelectedTextColor="@color/white"-->
+        <!--            app:tabTextAppearance="@style/MyCustomTabText"-->
+        <!--            app:tabTextColor="#191818">-->
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/mainprogress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/tabLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:foregroundGravity="fill_horizontal|top|left|bottom|clip_horizontal|center|fill_vertical|clip_vertical|right|center_horizontal|fill"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.viewpager2.widget.ViewPager2>
 
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <TextView
+        android:id="@+id/connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check on your internet connection"
+        android:textColor="#F40737"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="54dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        style="@style/RoundedTabLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@drawable/shape"
+        app:tabGravity="fill"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorColor="@color/purple_200"
+        app:tabIndicatorGravity="stretch"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextAppearance="@style/MyCustomTabText"
+        app:tabTextColor="#191818">
+
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

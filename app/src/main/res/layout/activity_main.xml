@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/rootLayout"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
@@ -51,7 +52,7 @@
             android:text="Check on your internet connection"
             android:textColor="#F40737"
             android:textSize="16sp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/tabLayout"
             app:layout_constraintEnd_toEndOf="@+id/viewPager"
             app:layout_constraintStart_toStartOf="@+id/viewPager"

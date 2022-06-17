@@ -17,9 +17,10 @@
         <entry key="app/src/main/res/drawable/tabs_selector.xml" value="0.1" />
         <entry key="app/src/main/res/font/cookie.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/font/lobster.xml" value="0.15416666666666667" />
-        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.2918395573997234" />
         <entry key="app/src/main/res/layout-land/activity_one_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout-land/activity_one_shoe.xml" value="0.22" />
+        <entry key="app/src/main/res/layout-land/activity_saved_clothes.xml" value="0.16005291005291006" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_one_item.xml" value="0.22" />

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -29,9 +31,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     List<Garment> restore;
     private long pressedTime;
     private FirebaseAuth mAuth;
+    @BindView(R.id.rootLayout)
+    ConstraintLayout constraintLayout;
 
 
     long time;
@@ -95,6 +101,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+      //  ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.rootLayout);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.rootLayout);
+        constraintLayout.post(new Runnable() {
+            public void run() {
+                Rect rect = new Rect();
+                Window win = getWindow();
+                win.getDecorView().getWindowVisibleDisplayFrame(rect);
+                int statusHeight = rect.top;
+                int contentViewTop = win.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+                int titleHeight = contentViewTop - statusHeight;
+                Log.i("heights", "titleHeight = " + titleHeight + " statusHeight = " + statusHeight + " contentViewTop = " + contentViewTop);
+
+                // CALCULATE THE SIZE OF INNER LAYOUTS
+             //   calculateChildSize();
+            }
+        });
+        int layout = viewPager2.getMeasuredHeight();
+      Toast.makeText(this, String.valueOf(layout), Toast.LENGTH_SHORT).show();
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         Constants.saved = false;
         tabLayout = this.findViewById(R.id.tabLayout);
