@@ -87,7 +87,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         return list.size();
     }
 
-    class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+  public class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         @BindView(R.id.itemImg)
         ImageView itemImg;
         @BindView(R.id.itemName)

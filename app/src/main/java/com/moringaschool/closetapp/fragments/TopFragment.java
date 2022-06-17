@@ -12,12 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import com.moringaschool.closetapp.R;
@@ -27,6 +29,7 @@ import com.moringaschool.closetapp.models.Garment;
 import com.moringaschool.closetapp.models.Response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -36,7 +39,7 @@ import butterknife.ButterKnife;
 public class TopFragment extends Fragment {
     public static Context topContext;
     private static RecyclerView.LayoutManager gridLayoutManager;
-
+    private static TopsRecyclerAdapter adapter;
     ReveryApi reveryApi;
     Response responses;
     public static RecyclerView recyclerViewTop;
@@ -46,6 +49,7 @@ public class TopFragment extends Fragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     static String category = "tops";
+    static ArrayList<Garment> garments;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,18 +89,53 @@ public class TopFragment extends Fragment {
         }
         recyclerViewTop.setLayoutManager(gridLayoutManager);
         topContext = getContext();
-        ArrayList<Garment> garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-        recyclerViewTop.setAdapter(new TopsRecyclerAdapter(garments, topContext));
+        garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+      adapter = new TopsRecyclerAdapter(garments, topContext);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewTop);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerViewTop);
+        recyclerViewTop.setAdapter(adapter);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void externalRefreshLayout() {
 
         recyclerViewTop.setLayoutManager(gridLayoutManager);
-        ArrayList<Garment> garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-        recyclerViewTop.setAdapter(new TopsRecyclerAdapter(garments, topContext));
+        garments = (ArrayList<Garment>) GARMENTS.stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
+       adapter= new TopsRecyclerAdapter(garments, topContext);
+        recyclerViewTop.setAdapter(adapter);
 
     }
 
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            Collections.swap(garments, fromPosition, toPosition);
+            recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
+
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            garments.remove(viewHolder.getAdapterPosition());
+            adapter.notifyDataSetChanged();
+        }
+    };
 
 }

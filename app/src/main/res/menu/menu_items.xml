@@ -9,10 +9,11 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+
     <item
         android:id="@+id/more"
         android:icon="@drawable/ic_baseline_more_vert_24"
-        android:title="Change Theme"
+        android:title="popup"
         android:iconTint="@color/white"
         app:actionViewClass="android.widget.ImageView"
         android:titleTextAppearance="@style/whiteColor"

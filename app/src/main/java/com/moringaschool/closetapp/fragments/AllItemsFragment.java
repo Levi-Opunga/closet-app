@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -32,6 +33,7 @@ import com.moringaschool.closetapp.models.Garment;
 import com.moringaschool.closetapp.models.Response;
 import com.moringaschool.closetapp.network.ReveryClient;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,16 +71,24 @@ public class AllItemsFragment extends Fragment {
         ButterKnife.bind(this, view);
         AllItemsRecyclerView = (RecyclerView) view.findViewById(R.id.all_itemRA);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-
         display();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Constants.GARMENTS = Constants.RESTORE;
-                display();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+      //  if (!Constants.saved)
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                   externalRefreshLayout();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+
+//        if(Constants.saved){
+//            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    swipeRefreshLayout.setRefreshing(false);
+//                }
+//            });
+//        }
         progressBar.setVisibility(View.GONE);
     }
 
@@ -93,10 +103,14 @@ public class AllItemsFragment extends Fragment {
             gridLayoutManager = new GridLayoutManager(getContext(), 2);
 
         }
+
         AllItemsRecyclerView.setLayoutManager(gridLayoutManager);
         allContext = getContext();
         garments = Constants.GARMENTS;
         adapter = new ItemRecyclerAdapter(garments, allContext);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(AllItemsRecyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(AllItemsRecyclerView);
         AllItemsRecyclerView.setAdapter(adapter);
 
     }
@@ -107,5 +121,35 @@ public class AllItemsFragment extends Fragment {
         adapter = new ItemRecyclerAdapter(garments, allContext);
         AllItemsRecyclerView.setAdapter(adapter);
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            Collections.swap(garments, fromPosition, toPosition);
+            recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            garments.remove(viewHolder.getAdapterPosition());
+            adapter.notifyDataSetChanged();
+        }
+    };
 
 }

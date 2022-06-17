@@ -29,11 +29,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
     long time;
     private Response responses;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    @BindView(R.id.connection)
+    TextView texview;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+       // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         Constants.saved = false;
         tabLayout = this.findViewById(R.id.tabLayout);
         Log.d("onCreate", "creaaaaaaaaate");
@@ -140,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
-
+viewPager2.setUserInputEnabled(false);
         refresh();
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -187,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Enter Filter Phrase");
-        MenuItem more = menu.findItem(R.id.more);
+          MenuItem more = menu.findItem(R.id.more);
         ImageView image = (ImageView) more.getActionView();
         Drawable res = getResources().getDrawable(R.drawable.ic_baseline_more_vert_24);
         image.setImageDrawable(res);
@@ -227,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -235,12 +240,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-
+//
         return super.onOptionsItemSelected(item);
     }
 
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+    }
 
     void refresh() {
         progressBar.setVisibility(View.VISIBLE);
@@ -267,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                         ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
                         viewPager2.setAdapter(itemPagerAdapter);
                         progressBar.setVisibility(View.GONE);
-
+texview.setVisibility(View.GONE);
                         Log.d("Success", "Suuuuuccccceeessssss in main");
 
                     }
@@ -275,8 +281,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Response> call, Throwable t) {
-                    Log.d("fail", "faillllllllllllllll");
-
+                    texview.setVisibility(View.VISIBLE);
+                    texview.setError("Check on your internet connection");
                 }
             });
         }
@@ -296,10 +302,11 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             finish();
         } else {
-            Constants.GARMENTS = Constants.RESTORE;
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
-            viewPager2.setAdapter(itemPagerAdapter);
+            refresh();
+//            Constants.GARMENTS = Constants.RESTORE;
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            ItemPagerAdapter itemPagerAdapter = new ItemPagerAdapter(fragmentManager, getLifecycle());
+//            viewPager2.setAdapter(itemPagerAdapter);
             Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_LONG).show();
         }
         pressedTime = System.currentTimeMillis();

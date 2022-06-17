@@ -7,14 +7,14 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
-    <item
-        android:id="@+id/more"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        android:title="Change Theme"
-        android:iconTint="@color/white"
-        app:actionViewClass="android.widget.ImageView"
-        android:titleTextAppearance="@style/whiteColor"
-        app:showAsAction="ifRoom" />
+ <item
+    android:id="@+id/more"
+    android:icon="@drawable/ic_baseline_more_vert_24"
+    android:title="popup"
+    android:iconTint="@color/white"
+    app:actionViewClass="android.widget.ImageView"
+    android:titleTextAppearance="@style/whiteColor"
+    app:showAsAction="ifRoom" />
 </menu>
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<menu xmlns:android="http://schemas.android.com/apk/res/android"-->

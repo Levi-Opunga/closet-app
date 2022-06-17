@@ -44,7 +44,7 @@ public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdap
     static Context context;
     static List<String> models;
 
-    public ShoesRecyclerAdapter(List<String> list, Context context, List<String> models) {
+    public ShoesRecyclerAdapter(List<String> list, Context context,List<String> models) {
         this.list = list;
         this.context = context;
         this.models = models;
@@ -164,7 +164,7 @@ public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdap
                     }
                 }
             });
-        }
-
+       }
+//
     }
 }

@@ -117,6 +117,7 @@ public class SavedClothesActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
+        viewPager2.setUserInputEnabled(false);
 
         refresh();
 

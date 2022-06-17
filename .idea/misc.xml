@@ -27,8 +27,9 @@
         <entry key="app/src/main/res/layout/activity_saved_clothes.xml" value="0.11639492753623189" />
         <entry key="app/src/main/res/layout/activity_saved_shoes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_in_or_up.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/display_item.xml" value="0.2186046511627907" />
-        <entry key="app/src/main/res/layout/fragment_all_items.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/card_sample.xml" value="0.4033333333333333" />
+        <entry key="app/src/main/res/layout/display_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_all_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_bottom.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_dress.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/fragment_gender_filter.xml" value="0.21311475409836064" />

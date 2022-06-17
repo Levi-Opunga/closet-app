@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -39,7 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ShoeFragment extends Fragment {
@@ -55,12 +55,13 @@ public class ShoeFragment extends Fragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     static String gender = Constants.GENDER;
-    static ArrayList<String> shoepaths = new ArrayList<>();
+    static List<String> shoePaths = new ArrayList<>();
     static ShoePathsDict allShoes;
     static com.moringaschool.closetapp.models.female.ShoePathsDict allShoesFemale;
     static List<String> strings = new ArrayList<>();
     static GridLayoutManager gridLayoutManager;
     private static Context context;
+    static ShoesRecyclerAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,11 +130,10 @@ public class ShoeFragment extends Fragment {
                     public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
                         if (response.isSuccessful()) {
                             Log.d("thekeyisatTommmmmy", "iiinnnnnnTommmm");
-                            ArrayList<String> shoepaths = new ArrayList<>();
                             responses = response.body();
                             allShoes = responses.getShoePathsDict();
-                            shoepaths.clear();
-                            Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
+                            shoePaths.clear();
+                            Collections.addAll(shoePaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
                                     allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
                                     allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),
                                     allShoes.getModel13319225(), allShoes.getModel12900360(), allShoes.getModel13590102(),
@@ -148,7 +148,13 @@ public class ShoeFragment extends Fragment {
                             recyclerView.setLayoutManager(gridLayoutManager);
 
                             strings = responses.getShoeModelIds();
-                            recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, context, strings));
+                           adapter= new ShoesRecyclerAdapter(shoePaths, context,strings);
+                            ItemTouchHelper secondItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+                            secondItemTouchHelper.attachToRecyclerView(recyclerView);
+                           // new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+                            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+                            itemTouchHelper.attachToRecyclerView(recyclerView);
+                            recyclerView.setAdapter(adapter);
                             Log.d("Successtttttttt", "Suuuuuccccceeessssss");
                         }
 
@@ -177,8 +183,8 @@ public class ShoeFragment extends Fragment {
                             fResponse = response.body();
                             allShoesFemale = fResponse.getShoePathsDict();
 
-                            shoepaths.clear();
-                            Collections.addAll(shoepaths, allShoesFemale.getModel13300343(),
+                            shoePaths.clear();
+                            Collections.addAll(shoePaths, allShoesFemale.getModel13300343(),
                                     allShoesFemale.getModel13417676(), allShoesFemale.getModel13483572(), allShoesFemale.getModel12466865(), allShoesFemale.getModel12949144(), allShoesFemale.getModel13440398(), allShoesFemale.getModel14196619(), allShoesFemale.getModel13160864(), allShoesFemale.getModel14235837(),
                                     allShoesFemale.getModel13136326(), allShoesFemale.getModel14421519(), allShoesFemale.getModel13346777(), allShoesFemale.getModel14881242(),
                                     allShoesFemale.getModel14108606(), allShoesFemale.getModel12876015(), allShoesFemale.getModel13229201(), allShoesFemale.getModel14143445(), allShoesFemale.getModel12742869(), allShoesFemale.getModel13015229(), allShoesFemale.getModel13647165(), allShoesFemale.getModel13086347(), allShoesFemale.getModel13104825(), allShoesFemale.getModel13565475(), allShoesFemale.getModel13447432(),
@@ -192,7 +198,7 @@ public class ShoeFragment extends Fragment {
                                     if (response.isSuccessful()) {
                                         responses = response.body();
                                         allShoes = responses.getShoePathsDict();
-                                        Collections.addAll(shoepaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
+                                        Collections.addAll(shoePaths, allShoes.getModel13208347(), allShoes.getModel12241518(),
                                                 allShoes.getModel12982074(), allShoes.getModel14059215(), allShoes.getModel14118877(),
                                                 allShoes.getModel13903163(), allShoes.getModel15138790(), allShoes.getModel13208328(),
                                                 allShoes.getModel13319225(), allShoes.getModel12900360(), allShoes.getModel13590102(),
@@ -205,15 +211,21 @@ public class ShoeFragment extends Fragment {
                                                 allShoes.getModel14127779(), allShoes.getModel15016762(), allShoes.getModel14786919());
 //
 
-
+                                        recyclerView.setLayoutManager(gridLayoutManager);
+                                        strings = fResponse.getShoeModelIds();
+                                        strings.addAll(responses.getShoeModelIds());
+                                        adapter= new ShoesRecyclerAdapter(shoePaths, context,strings);
+                                        ItemTouchHelper secondItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+                                        secondItemTouchHelper.attachToRecyclerView(recyclerView);
+                                     //   new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+                                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+                                        itemTouchHelper.attachToRecyclerView(recyclerView);
+                                        recyclerView.setAdapter(adapter);
+                                        Log.d("Successtoooooommmyyyy", "Suuuuutttttttttttttttttttttttttt");
+//
                                     }
 
-                                    recyclerView.setLayoutManager(gridLayoutManager);
-                                    strings = fResponse.getShoeModelIds();
-                                    strings.addAll(responses.getShoeModelIds());
-                                    recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, context, (ArrayList<String>) strings));
-                                    Log.d("Successtoooooommmyyyy", "Suuuuutttttttttttttttttttttttttt");
-//
+
                                 }
 
                                 @Override
@@ -246,10 +258,10 @@ public class ShoeFragment extends Fragment {
                     public void onResponse(Call<FemaleShoe> call, retrofit2.Response<FemaleShoe> response) {
                         if (response.isSuccessful()) {
                             fResponse = response.body();
-                            shoepaths.clear();
+                            shoePaths.clear();
                             strings.clear();
                             allShoesFemale = fResponse.getShoePathsDict();
-                            Collections.addAll(shoepaths, allShoesFemale.getModel13300343(),
+                            Collections.addAll(shoePaths, allShoesFemale.getModel13300343(),
                                     allShoesFemale.getModel13417676(), allShoesFemale.getModel13483572(), allShoesFemale.getModel12466865(), allShoesFemale.getModel12949144(), allShoesFemale.getModel13440398(), allShoesFemale.getModel14196619(), allShoesFemale.getModel13160864(), allShoesFemale.getModel14235837(),
                                     allShoesFemale.getModel13136326(), allShoesFemale.getModel14421519(), allShoesFemale.getModel13346777(), allShoesFemale.getModel14881242(),
                                     allShoesFemale.getModel14108606(), allShoesFemale.getModel12876015(), allShoesFemale.getModel13229201(), allShoesFemale.getModel14143445(), allShoesFemale.getModel12742869(), allShoesFemale.getModel13015229(), allShoesFemale.getModel13647165(), allShoesFemale.getModel13086347(), allShoesFemale.getModel13104825(), allShoesFemale.getModel13565475(), allShoesFemale.getModel13447432(),
@@ -257,8 +269,13 @@ public class ShoeFragment extends Fragment {
 
                             recyclerView.setLayoutManager(gridLayoutManager);
                             strings = fResponse.getShoeModelIds();
+                            adapter = new ShoesRecyclerAdapter(shoePaths, context,strings);
                             //  ArrayList<Garment> garments = (ArrayList<Garment>) responses.getGarments().stream().filter(garment -> garment.getTryon().getCategory().equals(category)).collect(Collectors.toList());
-                            recyclerView.setAdapter(new ShoesRecyclerAdapter(shoepaths, context, strings));
+                         ItemTouchHelper secondItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+                           secondItemTouchHelper.attachToRecyclerView(recyclerView);
+                            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+                            itemTouchHelper.attachToRecyclerView(recyclerView);
+                            recyclerView.setAdapter(adapter);
                             Log.d("Successtttttttt", "Suuuuuccccceeessssss");
 //
                         }
@@ -278,4 +295,35 @@ public class ShoeFragment extends Fragment {
 
         }
     }
+    static ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            Collections.swap(shoePaths, fromPosition, toPosition);
+            recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
+
+    static ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            shoePaths.remove(viewHolder.getAdapterPosition());
+            strings.remove(viewHolder.getAdapterPosition());
+            adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+        }
+    };
 }

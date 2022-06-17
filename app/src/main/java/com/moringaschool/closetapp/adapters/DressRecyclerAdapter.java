@@ -1,5 +1,7 @@
 package com.moringaschool.closetapp.adapters;
 
+import static com.moringaschool.closetapp.fragments.AllItemsFragment.adapter;
+
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +40,7 @@ import com.moringaschool.closetapp.fragments.TopFragment;
 import com.moringaschool.closetapp.models.Garment;
 import com.moringaschool.closetapp.ui.MainActivity;
 import com.moringaschool.closetapp.ui.OneItemActivity;
+import com.moringaschool.closetapp.util.ItemTouchHelperAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.security.AccessControlContext;
@@ -45,10 +49,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdapter.myHolders> {
+public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdapter.myHolders> implements ItemTouchHelperAdapter {
     static List<Garment> list;
     static Context context;
     View view;
+    ItemTouchHelper touchHelper;
 
     public DressRecyclerAdapter(List<Garment> list, Context context) {
         this.list = list;
@@ -87,7 +92,25 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
         return list.size();
     }
 
-    class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Garment fromGarment = list.get(fromPosition);
+        list.remove(fromPosition);
+        list.add(toPosition, fromGarment);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemSwiped(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void setTouchHelper(ItemTouchHelper touchHelper) {
+        this.touchHelper = touchHelper;
+    }
+
+    class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnTouchListener, GestureDetector.OnGestureListener {
         @BindView(R.id.itemImg)
         ImageView itemImg;
         @BindView(R.id.itemName)
@@ -96,12 +119,14 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
         CardView card;
         @BindView(R.id.selected)
         ImageView selected;
+        GestureDetector gestureDetector;
 
         public myHolders(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            view.setOnCreateContextMenuListener(this);
-
+           // itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnTouchListener(this);
+gestureDetector= new GestureDetector(itemView.getContext(),this);
             // card.setOnClickListener(ItemRecyclerAdapter.this::showPopupMenu);
         }
 
@@ -113,6 +138,41 @@ public class DressRecyclerAdapter extends RecyclerView.Adapter<DressRecyclerAdap
             menu.add(0, v.getId(), 2, "More Details");
         }
 
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+gestureDetector.onTouchEvent(event);
+            return true;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+         touchHelper.startDrag(this);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            return false;
+        }
     }
 
 
