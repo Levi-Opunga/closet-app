@@ -117,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
              //   calculateChildSize();
             }
         });
-        int layout = viewPager2.getMeasuredHeight();
-      Toast.makeText(this, String.valueOf(layout), Toast.LENGTH_SHORT).show();
        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         Constants.saved = false;
         tabLayout = this.findViewById(R.id.tabLayout);

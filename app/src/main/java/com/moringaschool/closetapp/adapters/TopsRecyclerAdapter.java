@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
         Picasso.get().load(list.get(position).getImageUrls().getProductImage()).into(holder.itemImg);
         holder.text.setText(list.get(position).getBrand());
         // holder.card.setOnClickListener(ItemRecyclerAdapter.showPopupMenu(view,list.get(position).getImageUrls().getProductImage()));
+        holder.card.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override

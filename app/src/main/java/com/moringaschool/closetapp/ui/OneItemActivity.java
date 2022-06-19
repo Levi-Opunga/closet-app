@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.moringaschool.closetapp.R;
 import com.moringaschool.closetapp.models.Garment;
@@ -47,15 +49,22 @@ public class OneItemActivity extends AppCompatActivity {
         } else {
             sub_category.setText(garment.getTryon().getBottoms_sub_category().toUpperCase());
         }
+        image.setOnClickListener(v ->
+                YoYo.with(Techniques.RubberBand)
+                .duration(700)
+                .repeat(1)
+                .playOn(findViewById(R.id.itemOneImage)));
         registerForContextMenu(image);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
         return true;
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -70,13 +73,16 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     public void onBindViewHolder(@NonNull myHolders holder, int position) {
         Picasso.get().load(list.get(position).getImageUrls().getProductImage()).into(holder.itemImg);
         holder.text.setText(list.get(position).getBrand());
-
+holder.card.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(context, OneItemActivity.class);
                 intent.putExtra("item", list.get(position));
-                context.startActivity(intent);
+
+               context.startActivity(intent);
             }
         });
         //}
@@ -87,7 +93,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         return list.size();
     }
 
-  public class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class myHolders extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         @BindView(R.id.itemImg)
         ImageView itemImg;
         @BindView(R.id.itemName)

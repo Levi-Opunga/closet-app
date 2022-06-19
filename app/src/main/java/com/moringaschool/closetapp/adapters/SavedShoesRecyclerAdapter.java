@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -58,6 +59,8 @@ public class SavedShoesRecyclerAdapter extends RecyclerView.Adapter<SavedShoesRe
     public void onBindViewHolder(@NonNull SavedShoesRecyclerAdapter.myHolders holder, int position) {
         Picasso.get().load(list.get(position).getUrl()).into(holder.itemImg);
         holder.text.setText(String.valueOf(position + 1));
+        holder.card.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

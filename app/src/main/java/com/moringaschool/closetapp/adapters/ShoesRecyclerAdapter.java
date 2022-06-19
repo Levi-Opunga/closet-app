@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -63,6 +64,8 @@ public class ShoesRecyclerAdapter extends RecyclerView.Adapter<ShoesRecyclerAdap
     public void onBindViewHolder(@NonNull ShoesRecyclerAdapter.myHolders holder, int position) {
         Picasso.get().load("https://revery-e-commerce-images.s3.us-east-2.amazonaws.com/" + list.get(position)).into(holder.itemImg);
         holder.text.setText(String.valueOf(position + 1));
+        holder.card.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
